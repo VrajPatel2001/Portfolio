@@ -193,11 +193,14 @@ export default function Portfolio() {
               <button
                 ref={menuButtonRef}
                 onClick={toggleMenu}
-                className="md:hidden text-gray-300 hover:text-white"
+                className="md:hidden text-gray-300 hover:text-white transition-transform duration-200"
                 aria-label="Toggle menu"
               >
                 <svg
-                  className="w-6 h-6"
+                  className={cn(
+                    "w-6 h-6 transition-transform duration-200",
+                    isOpen ? "rotate-90" : ""
+                  )}
                   fill="none"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -214,7 +217,10 @@ export default function Portfolio() {
                 className={cn(
                   'absolute right-0 top-full mt-2 py-2 bg-gray-900/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-800',
                   'md:relative md:top-0 md:mt-0 md:py-0 md:bg-transparent md:backdrop-blur-none md:border-0 md:shadow-none md:flex',
-                  isOpen ? 'block' : 'hidden md:block'
+                  'transform transition-all duration-200 ease-in-out origin-top',
+                  isOpen 
+                    ? 'opacity-100 scale-y-100 translate-y-0'
+                    : 'opacity-0 scale-y-95 -translate-y-2 md:opacity-100 md:scale-y-100 md:translate-y-0'
                 )}
               >
                 <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8">
@@ -223,10 +229,14 @@ export default function Portfolio() {
                       <button
                         onClick={() => scrollToSection(section)}
                         className={cn(
-                          'w-full text-left px-4 py-2 text-sm font-medium transition-colors duration-200 hover:bg-gray-800/50 md:hover:bg-transparent',
+                          'w-full text-left px-4 py-2 text-sm font-medium',
+                          'transition-all duration-200 ease-in-out',
+                          'hover:bg-gray-800/50 md:hover:bg-transparent',
+                          'relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-blue-400',
+                          'after:transition-all after:duration-200 after:ease-in-out',
                           activeSection === section
-                            ? 'text-blue-400'
-                            : 'text-gray-300 hover:text-white'
+                            ? 'text-blue-400 after:w-full'
+                            : 'text-gray-300 hover:text-white after:w-0 hover:after:w-full'
                         )}
                       >
                         {section.charAt(0).toUpperCase() + section.slice(1)}
