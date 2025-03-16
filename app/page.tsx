@@ -12,10 +12,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("about")
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const aboutRef = useRef<HTMLElement>(null)
   const experienceRef = useRef<HTMLElement>(null)
   const skillsRef = useRef<HTMLElement>(null)
   const projectsRef = useRef<HTMLElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,22 +53,30 @@ export default function Portfolio() {
   }, [])
 
   useEffect(() => {
-    const handleParallax = () => {
-      const parallaxBg = document.getElementById('parallax-bg')
-      if (parallaxBg) {
-        parallaxBg.style.transform = `translateY(${window.scrollY * 0.2}px)`
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        menuRef.current && 
+        !menuRef.current.contains(event.target as Node) &&
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(event.target as Node)
+      ) {
+        setMobileMenuOpen(false)
       }
     }
 
-    window.addEventListener('scroll', handleParallax)
-    handleParallax() // Initial position
-    return () => window.removeEventListener('scroll', handleParallax)
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  const handleMenuToggle = () => {
+    setMobileMenuOpen(prev => !prev)
+  }
 
   const scrollToSection = (sectionRef: React.RefObject<HTMLElement>) => {
     if (sectionRef.current) {
+      const offset = 100 // Account for fixed header
       window.scrollTo({
-        top: sectionRef.current.offsetTop - 80,
+        top: sectionRef.current.offsetTop - offset,
         behavior: "smooth",
       })
     }
@@ -83,34 +94,68 @@ export default function Portfolio() {
       {/* Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-terracotta/20">
         <div className="container mx-auto px-4 py-4">
-          <nav className="flex justify-between items-center">
+          <nav className="flex justify-between items-center relative">
             <div className="text-2xl font-bold text-terracotta">
               <span className="font-serif">VP</span>
             </div>
-            <ul className="hidden md:flex space-x-8">
-              {[
-                { id: "about", label: "About Me", ref: aboutRef },
-                { id: "experience", label: "Experience", ref: experienceRef },
-                { id: "skills", label: "Skills", ref: skillsRef },
-                { id: "projects", label: "Projects", ref: projectsRef },
-              ].map((item) => (
-                <li key={item.id}>
-                  <button
-                    onClick={() => scrollToSection(item.ref)}
-                    className={cn(
-                      "relative font-medium text-gray-700 hover:text-terracotta transition-colors",
-                      activeSection === item.id && "text-terracotta",
-                    )}
-                  >
-                    {item.label}
-                    {activeSection === item.id && (
-                      <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-terracotta" />
-                    )}
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <Button className="md:hidden bg-terracotta hover:bg-terracotta/90">Menu</Button>
+            
+            {/* Mobile Menu */}
+            <div 
+              ref={menuRef}
+              className={cn(
+                "fixed left-0 right-0 top-[72px] bg-white z-40 md:relative md:top-auto md:bg-transparent",
+                "transition-all duration-200 ease-in-out transform",
+                mobileMenuOpen 
+                  ? "opacity-100 translate-y-0 pointer-events-auto" 
+                  : "opacity-0 -translate-y-4 pointer-events-none md:opacity-100 md:translate-y-0 md:pointer-events-auto"
+              )}
+            >
+              <div className="container mx-auto px-4 md:p-0">
+                <ul className="flex flex-col space-y-1 py-4 md:flex-row md:space-y-0 md:space-x-8 md:py-0">
+                  {[
+                    { id: "about", label: "About Me", ref: aboutRef },
+                    { id: "experience", label: "Experience", ref: experienceRef },
+                    { id: "skills", label: "Skills", ref: skillsRef },
+                    { id: "projects", label: "Projects", ref: projectsRef },
+                  ].map((item) => (
+                    <li key={item.id}>
+                      <button
+                        onClick={() => {
+                          scrollToSection(item.ref)
+                          setMobileMenuOpen(false)
+                        }}
+                        className={cn(
+                          "w-full text-left px-4 py-3 rounded-md transition-colors md:px-0 md:py-0",
+                          "font-medium text-gray-700 hover:text-terracotta hover:bg-terracotta/5 md:hover:bg-transparent",
+                          activeSection === item.id && "text-terracotta bg-terracotta/10 md:bg-transparent"
+                        )}
+                      >
+                        {item.label}
+                        {activeSection === item.id && (
+                          <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-terracotta hidden md:block" />
+                        )}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Menu Toggle Button */}
+            <button
+              ref={menuButtonRef}
+              onClick={handleMenuToggle}
+              className={cn(
+                "inline-flex items-center justify-center md:hidden z-50",
+                "px-4 py-2 rounded-md bg-terracotta text-white",
+                "hover:bg-terracotta/90 transition-colors",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2"
+              )}
+              aria-expanded={mobileMenuOpen}
+              aria-label="Toggle menu"
+            >
+              Menu
+            </button>
           </nav>
         </div>
       </header>
@@ -120,21 +165,12 @@ export default function Portfolio() {
         <section
           ref={aboutRef}
           id="about"
-          className="min-h-screen relative flex items-center justify-center overflow-hidden"
+          className="min-h-screen relative flex items-center justify-center"
         >
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 scale-105"
-            style={{
-              backgroundImage: "url('/placeholder.svg?height=1080&width=1920')",
-            }}
-            id="parallax-bg"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
-
-          <div className="container mx-auto px-4 py-20 relative z-10">
+          <div className="container mx-auto px-4 py-20">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="mb-8 relative inline-block animate-fade-in">
-                <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-saffron mx-auto shadow-lg transform transition-transform hover:scale-105">
+              <div className="mb-8 relative inline-block">
+                <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-saffron mx-auto shadow-lg">
                   <Image
                     src="/placeholder.svg?height=200&width=200"
                     alt="Vraj Patel"
@@ -148,14 +184,14 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              <h1 className="text-5xl md:text-6xl font-bold mb-4 text-gray-900 font-serif animate-slide-up">
+              <h1 className="text-5xl md:text-6xl font-bold mb-4 text-gray-900 font-serif">
                 Vraj Patel
               </h1>
-              <h2 className="text-2xl md:text-3xl text-terracotta mb-8 animate-slide-up animation-delay-200">
+              <h2 className="text-2xl md:text-3xl text-terracotta mb-8">
                 Senior Software Developer
               </h2>
 
-              <div className="prose prose-lg max-w-3xl mx-auto mb-12 text-gray-700 animate-fade-in animation-delay-400">
+              <div className="prose prose-lg max-w-3xl mx-auto mb-12 text-gray-700">
                 <p>
                   I am a Senior Software Developer with over six years of experience specializing in Java, Spring
                   Framework, and React, delivering secure, scalable solutions like pharmacy software systems and
@@ -164,7 +200,7 @@ export default function Portfolio() {
                 </p>
               </div>
 
-              <div className="flex flex-wrap justify-center gap-4 animate-fade-in animation-delay-600">
+              <div className="flex flex-wrap justify-center gap-4">
                 <a
                   href="mailto:vrajpatel.java@gmail.com"
                   className="flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-md hover:shadow-lg transition-shadow"
@@ -201,10 +237,6 @@ export default function Portfolio() {
             <h2 className="text-4xl font-bold text-center mb-16 font-serif text-gray-900 relative">
               Work Experience
               <span className="block w-24 h-1 bg-saffron mx-auto mt-4"></span>
-              <div
-                className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-16 h-8 bg-contain bg-no-repeat opacity-30"
-                style={{ backgroundImage: "url('/placeholder.svg?height=50&width=100')" }}
-              ></div>
             </h2>
 
             <div className="max-w-4xl mx-auto relative">
@@ -217,13 +249,13 @@ export default function Portfolio() {
                 <div className="relative">
                   <div className="absolute left-1/2 transform -translate-x-1/2 -top-4 w-8 h-8 rounded-full border-4 border-white bg-terracotta z-10"></div>
                   <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div className="md:text-right animate-slide-right">
+                    <div className="md:text-right">
                       <h3 className="text-2xl font-bold text-gray-900">Software Developer</h3>
                       <p className="text-lg font-medium text-terracotta">Vebcommerce</p>
                       <p className="text-gray-600">Edmonton, Canada · On-Site</p>
                       <p className="text-gray-500">March 2024 – Present</p>
                     </div>
-                    <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-terracotta animate-slide-left">
+                    <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-terracotta">
                       <ul className="list-disc list-inside space-y-2 text-gray-700">
                         <li>
                           Spearheaded the development of an e-commerce management platform using SOLID principles.
@@ -244,13 +276,13 @@ export default function Portfolio() {
                 <div className="relative">
                   <div className="absolute left-1/2 transform -translate-x-1/2 -top-4 w-8 h-8 rounded-full border-4 border-white bg-saffron z-10"></div>
                   <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div className="md:order-2 md:text-left animate-slide-left">
+                    <div className="md:order-2 md:text-left">
                       <h3 className="text-2xl font-bold text-gray-900">Software Developer</h3>
                       <p className="text-lg font-medium text-saffron">Loblaw Companies Limited</p>
                       <p className="text-gray-600">Canada · Remote</p>
                       <p className="text-gray-500">October 2020 – February 2024</p>
                     </div>
-                    <div className="md:order-1 bg-white p-6 rounded-lg shadow-md border-r-4 border-saffron animate-slide-right">
+                    <div className="md:order-1 bg-white p-6 rounded-lg shadow-md border-r-4 border-saffron">
                       <ul className="list-disc list-inside space-y-2 text-gray-700">
                         <li>Built and maintained pharmacy software systems using Java, Spring Boot, and React.js.</li>
                         <li>Strengthened application security with OAuth 2.0, JWT, and Spring Security.</li>
@@ -266,13 +298,13 @@ export default function Portfolio() {
                 <div className="relative">
                   <div className="absolute left-1/2 transform -translate-x-1/2 -top-4 w-8 h-8 rounded-full border-4 border-white bg-emerald-600 z-10"></div>
                   <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div className="md:text-right animate-slide-right">
+                    <div className="md:text-right">
                       <h3 className="text-2xl font-bold text-gray-900">Java Developer</h3>
                       <p className="text-lg font-medium text-emerald-600">Otsuka Pharmaceutical India Pvt. Ltd.</p>
                       <p className="text-gray-600">India · On-Site</p>
                       <p className="text-gray-500">July 2018 – September 2020</p>
                     </div>
-                    <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-emerald-600 animate-slide-left">
+                    <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-emerald-600">
                       <ul className="list-disc list-inside space-y-2 text-gray-700">
                         <li>
                           Enhanced application performance using Spring Boot, resulting in a 25% increase in user
@@ -294,7 +326,11 @@ export default function Portfolio() {
         </section>
 
         {/* Skills Section */}
-        <section id="skills" className="py-16 bg-gray-50">
+        <section 
+          ref={skillsRef}
+          id="skills" 
+          className="py-16 bg-gray-50"
+        >
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-12">
               Technical Skills
@@ -383,10 +419,6 @@ export default function Portfolio() {
             <h2 className="text-4xl font-bold text-center mb-16 font-serif text-gray-900 relative">
               Projects
               <span className="block w-24 h-1 bg-emerald-600 mx-auto mt-4"></span>
-              <div
-                className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-16 h-8 bg-contain bg-no-repeat opacity-30"
-                style={{ backgroundImage: "url('/placeholder.svg?height=50&width=100')" }}
-              ></div>
             </h2>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -461,10 +493,6 @@ export default function Portfolio() {
             <h2 className="text-4xl font-bold text-center mb-16 font-serif text-gray-900 relative">
               Education
               <span className="block w-24 h-1 bg-terracotta mx-auto mt-4"></span>
-              <div
-                className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-16 h-8 bg-contain bg-no-repeat opacity-30"
-                style={{ backgroundImage: "url('/placeholder.svg?height=50&width=100')" }}
-              ></div>
             </h2>
 
             <div className="max-w-2xl mx-auto">
