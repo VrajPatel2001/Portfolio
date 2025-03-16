@@ -242,7 +242,7 @@ export default function Portfolio() {
         <section
           ref={aboutRef}
           id="about"
-          className="min-h-screen flex items-center justify-center pt-20 bg-transparent"
+          className="min-h-screen flex items-center justify-center pt-16 bg-transparent"
         >
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
@@ -299,7 +299,7 @@ export default function Portfolio() {
         <section
           ref={experienceRef}
           id="experience"
-          className="py-8 bg-transparent"
+          className="py-8 pt-16 bg-transparent"
         >
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-8 text-white">
@@ -330,7 +330,7 @@ export default function Portfolio() {
         <section 
           ref={skillsRef}
           id="skills" 
-          className="py-8 bg-transparent"
+          className="py-8 pt-16 bg-transparent"
         >
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-8 text-white">
@@ -402,7 +402,7 @@ export default function Portfolio() {
         <section
           ref={projectsRef}
           id="projects"
-          className="py-8 bg-transparent"
+          className="py-8 pt-16 bg-transparent"
         >
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-8 text-white">
@@ -434,7 +434,7 @@ export default function Portfolio() {
         </section>
 
         {/* Education Section */}
-        <section ref={educationRef} id="education" className="py-8 bg-transparent">
+        <section ref={educationRef} id="education" className="py-8 pt-16 bg-transparent">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-8 text-white">
               Education
@@ -451,7 +451,7 @@ export default function Portfolio() {
         </section>
 
         {/* Contact Section */}
-        <section ref={contactRef} id="contact" className="py-8 bg-transparent">
+        <section ref={contactRef} id="contact" className="py-8 pt-16 bg-transparent">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-8 text-white">
               Get In Touch
