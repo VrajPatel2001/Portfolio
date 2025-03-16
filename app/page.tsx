@@ -116,80 +116,67 @@ const experiences = [
   }
 ]
 
-const Portfolio = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showScrollTop, setShowScrollTop] = useState(false);
-  const [activeSection, setActiveSection] = useState('about');
-  
-  const aboutRef = useRef<HTMLElement | null>(null);
-  const experienceRef = useRef<HTMLElement | null>(null);
-  const skillsRef = useRef<HTMLElement | null>(null);
-  const projectsRef = useRef<HTMLElement | null>(null);
-  const contactRef = useRef<HTMLElement | null>(null);
-  const educationRef = useRef<HTMLElement | null>(null);
+export default function Portfolio() {
+  const aboutRef = useRef<HTMLElement>(null)
+  const experienceRef = useRef<HTMLElement>(null)
+  const skillsRef = useRef<HTMLElement>(null)
+  const projectsRef = useRef<HTMLElement>(null)
+  const educationRef = useRef<HTMLElement>(null)
+  const contactRef = useRef<HTMLElement>(null)
+
+  const [activeSection, setActiveSection] = useState('about')
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggleMenu = () => setIsOpen(!isOpen)
+
+  const scrollToSection = (section: string) => {
+    const refs = {
+      about: aboutRef,
+      experience: experienceRef,
+      skills: skillsRef,
+      projects: projectsRef,
+      education: educationRef,
+      contact: contactRef
+    }
+    
+    const ref = refs[section as keyof typeof refs]
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth' })
+      setIsOpen(false)
+    }
+  }
 
   useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 500);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id)
+          }
+        })
+      },
+      { threshold: 0.5 }
+    )
 
-      // Find active section
-      const sections = [
-        { id: 'about', ref: aboutRef },
-        { id: 'experience', ref: experienceRef },
-        { id: 'skills', ref: skillsRef },
-        { id: 'projects', ref: projectsRef },
-        { id: 'education', ref: educationRef },
-        { id: 'contact', ref: contactRef }
-      ];
+    const sections = [
+      aboutRef.current,
+      experienceRef.current,
+      skillsRef.current,
+      projectsRef.current,
+      educationRef.current,
+      contactRef.current
+    ]
 
-      let currentSection = sections[0].id;
-      const scrollPosition = window.scrollY + 150;
+    sections.forEach((section) => {
+      if (section) observer.observe(section)
+    })
 
-      for (const section of sections) {
-        const element = section.ref.current;
-        if (!element) continue;
+    return () => sections.forEach((section) => {
+      if (section) observer.unobserve(section)
+    })
+  }, [])
 
-        if (element.offsetTop <= scrollPosition) {
-          currentSection = section.id;
-        }
-      }
-
-      setActiveSection(currentSection);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleMenuToggle = () => {
-    setMobileMenuOpen(prev => !prev);
-  };
-
-  const scrollToSection = (ref: React.RefObject<HTMLElement | null>) => {
-    if (!ref.current) return;
-    const offset = 100;
-    window.scrollTo({
-      top: ref.current.offsetTop - offset,
-      behavior: 'smooth'
-    });
-    setMobileMenuOpen(false);
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
-
-  const navLinks = [
-    { name: 'About', ref: aboutRef },
-    { name: 'Experience', ref: experienceRef },
-    { name: 'Skills', ref: skillsRef },
-    { name: 'Projects', ref: projectsRef },
-    { name: 'Education', ref: educationRef },
-    { name: 'Contact', ref: contactRef }
-  ] as const;
+  const sections = ['about', 'experience', 'skills', 'projects', 'education', 'contact']
 
   const menuRef = useRef<HTMLDivElement | null>(null)
   const menuButtonRef = useRef<HTMLButtonElement | null>(null)
@@ -200,65 +187,53 @@ const Portfolio = () => {
       
       <main className="relative z-10">
         {/* Navigation */}
-        <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-sm">
+        <header className="fixed top-0 left-0 right-0 z-50">
           <div className="container mx-auto px-4 py-4">
-            <nav suppressHydrationWarning className="flex justify-between items-center relative">
-              <div className="text-2xl font-bold text-white">
-                <span className="text-blue-400 font-serif">VP</span>
-              </div>
-              
-              {/* Mobile Menu */}
-              <div 
-                ref={menuRef}
-                className={cn(
-                  "fixed left-0 right-0 top-[72px] bg-gray-900 z-40 md:relative md:top-auto md:bg-transparent",
-                  "transition-all duration-200 ease-in-out transform",
-                  mobileMenuOpen 
-                    ? "opacity-100 translate-y-0 pointer-events-auto" 
-                    : "opacity-0 -translate-y-4 pointer-events-none md:opacity-100 md:translate-y-0 md:pointer-events-auto"
-                )}
-              >
-                <div className="container mx-auto px-4 md:p-0">
-                  <ul className="flex flex-col space-y-1 py-4 md:flex-row md:space-y-0 md:space-x-8 md:py-0">
-                    {navLinks.map((item) => (
-                      <li key={item.name}>
-                        <button
-                          onClick={() => {
-                            scrollToSection(item.ref)
-                            setMobileMenuOpen(false)
-                          }}
-                          className={cn(
-                            "w-full text-left px-4 py-3 rounded-md transition-colors md:px-0 md:py-0",
-                            "font-medium text-gray-400 hover:text-white hover:bg-white/10 md:hover:bg-transparent",
-                            activeSection === item.name.toLowerCase() && "text-blue-400 bg-white/10 md:bg-transparent"
-                          )}
-                        >
-                          {item.name}
-                          {activeSection === item.name.toLowerCase() && (
-                            <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-400 hidden md:block" />
-                          )}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Menu Toggle Button */}
+            <nav suppressHydrationWarning className="flex justify-end items-center relative">
               <button
                 ref={menuButtonRef}
-                onClick={handleMenuToggle}
-                className={cn(
-                  "inline-flex items-center justify-center md:hidden z-50",
-                  "px-4 py-2 rounded-md bg-gray-800 text-white",
-                  "hover:bg-gray-700 transition-colors",
-                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
-                )}
-                aria-expanded={mobileMenuOpen}
+                onClick={toggleMenu}
+                className="md:hidden text-gray-300 hover:text-white"
                 aria-label="Toggle menu"
               >
-                Menu
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
               </button>
+
+              <div
+                ref={menuRef}
+                className={cn(
+                  'absolute right-0 top-full mt-2 py-2 bg-gray-900/80 backdrop-blur-sm rounded-lg md:relative md:top-0 md:mt-0 md:py-0 md:bg-transparent md:flex',
+                  isOpen ? 'block' : 'hidden md:block'
+                )}
+              >
+                <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8">
+                  {sections.map((section) => (
+                    <li key={section}>
+                      <button
+                        onClick={() => scrollToSection(section)}
+                        className={cn(
+                          'px-4 py-2 text-sm font-medium transition-colors duration-200',
+                          activeSection === section
+                            ? 'text-blue-400'
+                            : 'text-gray-300 hover:text-white'
+                        )}
+                      >
+                        {section.charAt(0).toUpperCase() + section.slice(1)}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </nav>
           </div>
         </header>
@@ -299,7 +274,7 @@ const Portfolio = () => {
                   href="#contact"
                   onClick={(e) => {
                     e.preventDefault()
-                    scrollToSection(contactRef)
+                    scrollToSection('contact')
                   }}
                   className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
                 >
@@ -309,7 +284,7 @@ const Portfolio = () => {
                   href="#projects"
                   onClick={(e) => {
                     e.preventDefault()
-                    scrollToSection(projectsRef)
+                    scrollToSection('projects')
                   }}
                   className="px-8 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
                 >
@@ -534,11 +509,10 @@ const Portfolio = () => {
 
         {/* Scroll to top button */}
         <button
-          onClick={scrollToTop}
-          className={cn(
-            "fixed bottom-8 right-8 w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-lg transition-all duration-300 z-40 hover:bg-blue-600",
-            showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
-          )}
+          onClick={() => {
+            aboutRef.current?.scrollIntoView({ behavior: 'smooth' })
+          }}
+          className="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-lg transition-all duration-300 z-40 hover:bg-blue-600"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
@@ -547,6 +521,4 @@ const Portfolio = () => {
       </main>
     </div>
   );
-};
-
-export default Portfolio;
+}
