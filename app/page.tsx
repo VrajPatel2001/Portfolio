@@ -9,7 +9,6 @@ import { cn } from "../lib/utils"
 import { Button } from "../components/ui/button"
 import { Badge } from "../components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
-import { CodeIcon, LibraryIcon, ToolIcon } from "../components/ui/icon"
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("about")
@@ -79,24 +78,6 @@ export default function Portfolio() {
       behavior: "smooth",
     })
   }
-
-  const skills = {
-    languages: [
-      { name: "Java", logo: "/tech-logos/java.svg" },
-      { name: "TypeScript", logo: "/tech-logos/typescript.svg" },
-      { name: "Python", logo: "/tech-logos/python.svg" },
-    ],
-    frameworks: [
-      { name: "Spring Framework", logo: "/tech-logos/spring.svg" },
-      { name: "React", logo: "/tech-logos/react.svg" },
-      { name: "Next.js", logo: "/tech-logos/nextjs.svg" },
-    ],
-    tools: [
-      { name: "Docker", logo: "/tech-logos/docker.svg" },
-      { name: "Kubernetes", logo: "/tech-logos/kubernetes.svg" },
-      { name: "AWS", logo: "/tech-logos/aws.svg" },
-    ],
-  };
 
   return (
     <div className="relative">
@@ -314,98 +295,78 @@ export default function Portfolio() {
         </section>
 
         {/* Skills Section */}
-        <section ref={skillsRef} id="skills" className="py-20 bg-gradient-to-b from-white to-terracotta/5">
+        <section id="skills" className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center mb-16 font-serif text-gray-900 relative">
-              Technical Skills
-              <span className="block w-24 h-1 bg-indigo mx-auto mt-4" />
-            </h2>
-            <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Programming Languages */}
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100">
-                  <h3 className="text-xl font-bold mb-6 text-indigo flex items-center gap-2">
-                    <CodeIcon className="w-6 h-6" />
-                    Programming Languages
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <Image src="/tech-logos/java.svg" alt="Java" width={40} height={40} className="rounded" />
-                      <div>
-                        <h4 className="font-semibold">Java</h4>
-                        <p className="text-sm text-gray-600">Enterprise & Backend Development</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <Image src="/tech-logos/typescript.svg" alt="TypeScript" width={40} height={40} className="rounded" />
-                      <div>
-                        <h4 className="font-semibold">TypeScript</h4>
-                        <p className="text-sm text-gray-600">Type-safe JavaScript Development</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <Image src="/tech-logos/python.svg" alt="Python" width={40} height={40} className="rounded" />
-                      <div>
-                        <h4 className="font-semibold">Python</h4>
-                        <p className="text-sm text-gray-600">Scripting & Data Analysis</p>
-                      </div>
-                    </div>
-                  </div>
+            <h2 className="text-3xl font-bold text-center mb-12">Technical Skills</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Programming Languages */}
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                <h3 className="text-xl font-semibold text-indigo-900 mb-4">
+                  Programming Languages
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">Java</Badge>
+                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">JavaScript</Badge>
+                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">SQL</Badge>
                 </div>
+              </div>
 
-                {/* Frameworks & Libraries */}
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100">
-                  <h3 className="text-xl font-bold mb-6 text-terracotta flex items-center gap-2">
-                    <LibraryIcon className="w-6 h-6" />
-                    Frameworks & Libraries
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <Image src="/tech-logos/spring.svg" alt="Spring" width={40} height={40} className="rounded" />
-                      <div>
-                        <h4 className="font-semibold">Spring Framework</h4>
-                        <p className="text-sm text-gray-600">Enterprise Java Development</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <Image src="/tech-logos/react.svg" alt="React" width={40} height={40} className="rounded" />
-                      <div>
-                        <h4 className="font-semibold">React</h4>
-                        <p className="text-sm text-gray-600">Frontend Development</p>
-                      </div>
-                    </div>
-                  </div>
+              {/* Frameworks & Tools */}
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                <h3 className="text-xl font-semibold text-red-800 mb-4">
+                  Frameworks & Tools
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  <Badge className="bg-red-800 hover:bg-red-700 text-white">Spring Boot</Badge>
+                  <Badge className="bg-red-800 hover:bg-red-700 text-white">Spring Framework</Badge>
+                  <Badge className="bg-red-800 hover:bg-red-700 text-white">React.js</Badge>
+                  <Badge className="bg-red-800 hover:bg-red-700 text-white">Hibernate</Badge>
+                  <Badge className="bg-red-800 hover:bg-red-700 text-white">JPA</Badge>
+                  <Badge className="bg-red-800 hover:bg-red-700 text-white">Maven</Badge>
+                  <Badge className="bg-red-800 hover:bg-red-700 text-white">Jenkins</Badge>
                 </div>
+              </div>
 
-                {/* Tools & Technologies */}
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 border border-gray-100">
-                  <h3 className="text-xl font-bold mb-6 text-saffron flex items-center gap-2">
-                    <ToolIcon className="w-6 h-6" />
-                    Tools & Technologies
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <Image src="/tech-logos/docker.svg" alt="Docker" width={40} height={40} className="rounded" />
-                      <div>
-                        <h4 className="font-semibold">Docker</h4>
-                        <p className="text-sm text-gray-600">Containerization</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <Image src="/tech-logos/kubernetes.svg" alt="Kubernetes" width={40} height={40} className="rounded" />
-                      <div>
-                        <h4 className="font-semibold">Kubernetes</h4>
-                        <p className="text-sm text-gray-600">Container Orchestration</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                      <Image src="/tech-logos/aws.svg" alt="AWS" width={40} height={40} className="rounded" />
-                      <div>
-                        <h4 className="font-semibold">AWS</h4>
-                        <p className="text-sm text-gray-600">Cloud Computing</p>
-                      </div>
-                    </div>
-                  </div>
+              {/* Cloud & DevOps */}
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                <h3 className="text-xl font-semibold text-orange-600 mb-4">
+                  Cloud & DevOps
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  <Badge className="bg-orange-600 hover:bg-orange-500 text-white">Kubernetes</Badge>
+                  <Badge className="bg-orange-600 hover:bg-orange-500 text-white">Docker</Badge>
+                  <Badge className="bg-orange-600 hover:bg-orange-500 text-white">Google Cloud Platform (GCP)</Badge>
+                  <Badge className="bg-orange-600 hover:bg-orange-500 text-white">Jenkins</Badge>
+                </div>
+              </div>
+
+              {/* Database Management */}
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                <h3 className="text-xl font-semibold text-emerald-700 mb-4">
+                  Database Management
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  <Badge className="bg-emerald-700 hover:bg-emerald-600 text-white">SQL Server</Badge>
+                  <Badge className="bg-emerald-700 hover:bg-emerald-600 text-white">MySQL</Badge>
+                  <Badge className="bg-emerald-700 hover:bg-emerald-600 text-white">PostgreSQL</Badge>
+                  <Badge className="bg-emerald-700 hover:bg-emerald-600 text-white">Oracle</Badge>
+                </div>
+              </div>
+
+              {/* Software Development */}
+              <div className="bg-white p-6 rounded-lg shadow-sm col-span-1 md:col-span-2">
+                <h3 className="text-xl font-semibold text-indigo-900 mb-4">
+                  Software Development
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">Microservices Architecture</Badge>
+                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">RESTful APIs</Badge>
+                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">Agile Methodologies</Badge>
+                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">CI/CD</Badge>
+                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">Object-Oriented Programming</Badge>
+                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">Design Patterns</Badge>
+                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">Optimization</Badge>
+                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">API Integration</Badge>
                 </div>
               </div>
             </div>
