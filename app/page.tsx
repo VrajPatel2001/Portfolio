@@ -202,7 +202,7 @@ const Portfolio = () => {
         {/* Navigation */}
         <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-sm">
           <div className="container mx-auto px-4 py-4">
-            <nav className="flex justify-between items-center relative">
+            <nav suppressHydrationWarning className="flex justify-between items-center relative">
               <div className="text-2xl font-bold text-white">
                 <span className="text-blue-400 font-serif">VP</span>
               </div>

@@ -1,14 +1,15 @@
+// Matrix-Inspired Theme
 const particlesConfig = {
   particles: {
     number: {
-      value: 160,
+      value: 140,
       density: {
         enable: true,
         value_area: 800
       }
     },
     color: {
-      value: ["#60a5fa", "#3b82f6", "#2563eb", "#1d4ed8", "#93c5fd"]
+      value: ["#059669", "#10b981", "#34d399", "#064e3b", "#047857"]
     },
     shape: {
       type: "circle"
@@ -18,17 +19,17 @@ const particlesConfig = {
       random: true,
       anim: {
         enable: true,
-        speed: 1,
-        opacity_min: 0.5,
+        speed: 1.5,
+        opacity_min: 0.4,
         sync: false
       }
     },
     size: {
-      value: 4,
+      value: 3,
       random: true,
       anim: {
         enable: true,
-        speed: 3,
+        speed: 2,
         size_min: 0.5,
         sync: false
       }
@@ -36,21 +37,21 @@ const particlesConfig = {
     line_linked: {
       enable: true,
       distance: 150,
-      color: "#60a5fa",
+      color: "#10b981",
       opacity: 0.6,
-      width: 1.5
+      width: 1.2
     },
     move: {
       enable: true,
       speed: 2.5,
-      direction: "none",
+      direction: "top",
       random: true,
       straight: false,
-      out_mode: "bounce",
-      bounce: true,
+      out_mode: "out",
+      bounce: false,
       attract: {
-        enable: true,
-        rotateX: 1200,
+        enable: false,
+        rotateX: 600,
         rotateY: 1200
       }
     }
@@ -60,7 +61,7 @@ const particlesConfig = {
     events: {
       onhover: {
         enable: true,
-        mode: "repulse"
+        mode: "trail"
       },
       onclick: {
         enable: true,
@@ -69,12 +70,20 @@ const particlesConfig = {
       resize: true
     },
     modes: {
-      repulse: {
-        distance: 150,
-        duration: 0.4
+      trail: {
+        delay: 0.005,
+        quantity: 5,
+        particles: {
+          size: {
+            value: 2
+          },
+          color: {
+            value: "#34d399"
+          }
+        }
       },
       push: {
-        particles_nb: 6
+        particles_nb: 8
       }
     }
   },
