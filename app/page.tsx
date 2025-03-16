@@ -7,7 +7,6 @@ import { ArrowUp, Mail, Twitter, Linkedin } from "lucide-react"
 import Image from "next/image"
 import { cn } from "../lib/utils"
 import { Button } from "../components/ui/button"
-import { Badge } from "../components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
 
 export default function Portfolio() {
@@ -297,76 +296,81 @@ export default function Portfolio() {
         {/* Skills Section */}
         <section id="skills" className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">Technical Skills</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">
+              Technical Skills
+              <div className="w-24 h-1 bg-indigo-900 mx-auto mt-4"></div>
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Programming Languages */}
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-semibold text-indigo-900 mb-4">
+              <div className="bg-white p-6 rounded-lg shadow">
+                <h3 className="text-xl font-bold text-[#1e1b4b] mb-4">
                   Programming Languages
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">Java</Badge>
-                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">JavaScript</Badge>
-                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">SQL</Badge>
+                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">Java</span>
+                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">JavaScript</span>
+                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">SQL</span>
                 </div>
               </div>
 
               {/* Frameworks & Tools */}
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-semibold text-red-800 mb-4">
+              <div className="bg-white p-6 rounded-lg shadow">
+                <h3 className="text-xl font-bold text-[#991b1b] mb-4">
                   Frameworks & Tools
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <Badge className="bg-red-800 hover:bg-red-700 text-white">Spring Boot</Badge>
-                  <Badge className="bg-red-800 hover:bg-red-700 text-white">Spring Framework</Badge>
-                  <Badge className="bg-red-800 hover:bg-red-700 text-white">React.js</Badge>
-                  <Badge className="bg-red-800 hover:bg-red-700 text-white">Hibernate</Badge>
-                  <Badge className="bg-red-800 hover:bg-red-700 text-white">JPA</Badge>
-                  <Badge className="bg-red-800 hover:bg-red-700 text-white">Maven</Badge>
-                  <Badge className="bg-red-800 hover:bg-red-700 text-white">Jenkins</Badge>
+                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">Spring Boot</span>
+                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">Spring Framework</span>
+                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">React.js</span>
+                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">Hibernate</span>
+                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">JPA</span>
+                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">Maven</span>
+                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">Jenkins</span>
                 </div>
               </div>
 
               {/* Cloud & DevOps */}
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-semibold text-orange-600 mb-4">
+              <div className="bg-white p-6 rounded-lg shadow">
+                <h3 className="text-xl font-bold text-[#ea580c] mb-4">
                   Cloud & DevOps
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <Badge className="bg-orange-600 hover:bg-orange-500 text-white">Kubernetes</Badge>
-                  <Badge className="bg-orange-600 hover:bg-orange-500 text-white">Docker</Badge>
-                  <Badge className="bg-orange-600 hover:bg-orange-500 text-white">Google Cloud Platform (GCP)</Badge>
-                  <Badge className="bg-orange-600 hover:bg-orange-500 text-white">Jenkins</Badge>
+                  <span className="inline-flex items-center rounded-full bg-[#ea580c] px-4 py-1 text-sm font-medium text-white hover:bg-[#ff8c00] transition-colors">Kubernetes</span>
+                  <span className="inline-flex items-center rounded-full bg-[#ea580c] px-4 py-1 text-sm font-medium text-white hover:bg-[#ff8c00] transition-colors">Docker</span>
+                  <span className="inline-flex items-center rounded-full bg-[#ea580c] px-4 py-1 text-sm font-medium text-white hover:bg-[#ff8c00] transition-colors">Google Cloud Platform (GCP)</span>
+                  <span className="inline-flex items-center rounded-full bg-[#ea580c] px-4 py-1 text-sm font-medium text-white hover:bg-[#ff8c00] transition-colors">Jenkins</span>
+                  <span className="inline-flex items-center rounded-full bg-[#ea580c] px-4 py-1 text-sm font-medium text-white hover:bg-[#ff8c00] transition-colors">AWS</span>
                 </div>
               </div>
 
               {/* Database Management */}
-              <div className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-xl font-semibold text-emerald-700 mb-4">
+              <div className="bg-white p-6 rounded-lg shadow">
+                <h3 className="text-xl font-bold text-[#047857] mb-4">
                   Database Management
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <Badge className="bg-emerald-700 hover:bg-emerald-600 text-white">SQL Server</Badge>
-                  <Badge className="bg-emerald-700 hover:bg-emerald-600 text-white">MySQL</Badge>
-                  <Badge className="bg-emerald-700 hover:bg-emerald-600 text-white">PostgreSQL</Badge>
-                  <Badge className="bg-emerald-700 hover:bg-emerald-600 text-white">Oracle</Badge>
+                  <span className="inline-flex items-center rounded-full bg-[#047857] px-4 py-1 text-sm font-medium text-white hover:bg-[#04c18f] transition-colors">SQL Server</span>
+                  <span className="inline-flex items-center rounded-full bg-[#047857] px-4 py-1 text-sm font-medium text-white hover:bg-[#04c18f] transition-colors">MySQL</span>
+                  <span className="inline-flex items-center rounded-full bg-[#047857] px-4 py-1 text-sm font-medium text-white hover:bg-[#04c18f] transition-colors">PostgreSQL</span>
+                  <span className="inline-flex items-center rounded-full bg-[#047857] px-4 py-1 text-sm font-medium text-white hover:bg-[#04c18f] transition-colors">Oracle</span>
+                  <span className="inline-flex items-center rounded-full bg-[#047857] px-4 py-1 text-sm font-medium text-white hover:bg-[#04c18f] transition-colors">MongoDB</span>
                 </div>
               </div>
 
               {/* Software Development */}
-              <div className="bg-white p-6 rounded-lg shadow-sm col-span-1 md:col-span-2">
-                <h3 className="text-xl font-semibold text-indigo-900 mb-4">
+              <div className="bg-white p-6 rounded-lg shadow col-span-1 md:col-span-2">
+                <h3 className="text-xl font-bold text-[#1e1b4b] mb-4">
                   Software Development
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">Microservices Architecture</Badge>
-                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">RESTful APIs</Badge>
-                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">Agile Methodologies</Badge>
-                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">CI/CD</Badge>
-                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">Object-Oriented Programming</Badge>
-                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">Design Patterns</Badge>
-                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">Optimization</Badge>
-                  <Badge className="bg-indigo-900 hover:bg-indigo-800 text-white">API Integration</Badge>
+                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">Microservices Architecture</span>
+                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">RESTful APIs</span>
+                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">Agile Methodologies</span>
+                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">CI/CD</span>
+                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">Object-Oriented Programming</span>
+                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">Design Patterns</span>
+                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">Optimization</span>
+                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">API Integration</span>
                 </div>
               </div>
             </div>
@@ -387,42 +391,20 @@ export default function Portfolio() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Project 1 */}
-              <Card className="overflow-hidden group animate-fade-in hover:shadow-lg transition-shadow">
-                <div className="h-48 bg-gradient-to-r from-terracotta to-saffron relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center text-white text-opacity-20 text-7xl font-bold">
-                    E-COM
-                  </div>
-                  <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <Button variant="outline" className="text-white border-white hover:bg-white/20 hover:text-white">
-                      View Details
-                    </Button>
-                  </div>
-                </div>
+              <Card className="overflow-hidden">
                 <CardHeader>
-                  <CardTitle className="text-xl text-gray-900 group-hover:text-terracotta transition-colors">
-                    E-Commerce Management Platform
-                  </CardTitle>
+                  <CardTitle className="text-xl">E-Commerce Management Platform</CardTitle>
                   <CardDescription>
                     A comprehensive platform for managing cross-platform orders, inventory, shipping, and products.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    <Badge variant="outline" className="bg-gray-100">
-                      Java
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-100">
-                      Spring Boot
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-100">
-                      React.js
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-100">
-                      Elasticsearch
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-100">
-                      Docker
-                    </Badge>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Java</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Spring Boot</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">React.js</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Elasticsearch</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Docker</span>
                   </div>
                   <p className="text-sm text-gray-600">
                     Reduced API response times by 35% and improved deployment frequency by 40%.
@@ -431,84 +413,40 @@ export default function Portfolio() {
               </Card>
 
               {/* Project 2 */}
-              <Card className="overflow-hidden group animate-fade-in animation-delay-200 hover:shadow-lg transition-shadow">
-                <div className="h-48 bg-gradient-to-r from-indigo to-emerald-600 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center text-white text-opacity-20 text-7xl font-bold">
-                    PHARM
-                  </div>
-                  <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <Button variant="outline" className="text-white border-white hover:bg-white/20 hover:text-white">
-                      View Details
-                    </Button>
-                  </div>
-                </div>
+              <Card className="overflow-hidden">
                 <CardHeader>
-                  <CardTitle className="text-xl text-gray-900 group-hover:text-indigo transition-colors">
-                    Pharmacy Software System
-                  </CardTitle>
+                  <CardTitle className="text-xl">Pharmacy Software System</CardTitle>
                   <CardDescription>
                     A secure, efficient system for pharmacy operations and data management.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    <Badge variant="outline" className="bg-gray-100">
-                      Java
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-100">
-                      Spring Boot
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-100">
-                      React.js
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-100">
-                      OAuth 2.0
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-100">
-                      Kubernetes
-                    </Badge>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Java</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Spring Boot</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">React.js</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">OAuth 2.0</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Kubernetes</span>
                   </div>
                   <p className="text-sm text-gray-600">Cut vulnerabilities by 40% and reduced app crashes by 95%.</p>
                 </CardContent>
               </Card>
 
               {/* Project 3 */}
-              <Card className="overflow-hidden group animate-fade-in animation-delay-400 hover:shadow-lg transition-shadow">
-                <div className="h-48 bg-gradient-to-r from-saffron to-emerald-600 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center text-white text-opacity-20 text-7xl font-bold">
-                    DB
-                  </div>
-                  <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <Button variant="outline" className="text-white border-white hover:bg-white/20 hover:text-white">
-                      View Details
-                    </Button>
-                  </div>
-                </div>
+              <Card className="overflow-hidden">
                 <CardHeader>
-                  <CardTitle className="text-xl text-gray-900 group-hover:text-emerald-600 transition-colors">
-                    Database Optimization Initiative
-                  </CardTitle>
+                  <CardTitle className="text-xl">Database Optimization Initiative</CardTitle>
                   <CardDescription>
                     A project to enhance database performance through entity design and query optimization.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    <Badge variant="outline" className="bg-gray-100">
-                      JPA
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-100">
-                      Hibernate
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-100">
-                      SQL
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-100">
-                      Maven
-                    </Badge>
-                    <Badge variant="outline" className="bg-gray-100">
-                      Jenkins
-                    </Badge>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">JPA</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Hibernate</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">SQL</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Maven</span>
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Jenkins</span>
                   </div>
                   <p className="text-sm text-gray-600">Doubled database performance and boosted efficiency by 30%.</p>
                 </CardContent>
@@ -530,7 +468,7 @@ export default function Portfolio() {
             </h2>
 
             <div className="max-w-2xl mx-auto">
-              <Card className="overflow-hidden animate-fade-in hover:shadow-lg transition-shadow">
+              <Card className="overflow-hidden">
                 <CardHeader className="bg-gradient-to-r from-terracotta/20 to-saffron/20">
                   <CardTitle className="text-xl text-gray-900">
                     Computer Programming in Information Technology
@@ -561,7 +499,7 @@ export default function Portfolio() {
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               <a
                 href="mailto:vrajpatel.java@gmail.com"
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-terracotta/90 hover:bg-terracotta transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-terracotta/90"
               >
                 <Mail className="w-5 h-5" />
                 <span>Email</span>
@@ -570,7 +508,7 @@ export default function Portfolio() {
                 href="https://x.com/vnpatel99"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo/90 hover:bg-indigo transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo/90"
               >
                 <Twitter className="w-5 h-5" />
                 <span>Twitter</span>
@@ -579,7 +517,7 @@ export default function Portfolio() {
                 href="https://www.linkedin.com/in/vraj-patel-5877442a3/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-saffron/90 hover:bg-saffron transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-saffron/90"
               >
                 <Linkedin className="w-5 h-5" />
                 <span>LinkedIn</span>
