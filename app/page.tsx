@@ -212,7 +212,8 @@ export default function Portfolio() {
               <div
                 ref={menuRef}
                 className={cn(
-                  'absolute right-0 top-full mt-2 py-2 bg-gray-900/80 backdrop-blur-sm rounded-lg md:relative md:top-0 md:mt-0 md:py-0 md:bg-transparent md:flex',
+                  'absolute right-0 top-full mt-2 py-2 bg-gray-900/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-800',
+                  'md:relative md:top-0 md:mt-0 md:py-0 md:bg-transparent md:backdrop-blur-none md:border-0 md:shadow-none md:flex',
                   isOpen ? 'block' : 'hidden md:block'
                 )}
               >
@@ -222,7 +223,7 @@ export default function Portfolio() {
                       <button
                         onClick={() => scrollToSection(section)}
                         className={cn(
-                          'px-4 py-2 text-sm font-medium transition-colors duration-200',
+                          'w-full text-left px-4 py-2 text-sm font-medium transition-colors duration-200 hover:bg-gray-800/50 md:hover:bg-transparent',
                           activeSection === section
                             ? 'text-blue-400'
                             : 'text-gray-300 hover:text-white'
