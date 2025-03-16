@@ -2,175 +2,277 @@
 
 import type React from "react"
 
-import { useEffect, useRef, useState } from "react"
-import { ArrowUp, Mail, Twitter, Linkedin } from "lucide-react"
-import Image from "next/image"
+import { useState, useRef, useEffect } from "react"
 import { cn } from "../lib/utils"
+import ParticlesBackground from "../components/ParticlesBackground"
+import Image from "next/image"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
+import { ArrowUp, Mail, Twitter, Linkedin } from "lucide-react"
 
-export default function Portfolio() {
-  const [activeSection, setActiveSection] = useState("about")
-  const [showScrollTop, setShowScrollTop] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const aboutRef = useRef<HTMLElement>(null)
-  const experienceRef = useRef<HTMLElement>(null)
-  const skillsRef = useRef<HTMLElement>(null)
-  const projectsRef = useRef<HTMLElement>(null)
-  const menuRef = useRef<HTMLDivElement>(null)
-  const menuButtonRef = useRef<HTMLButtonElement>(null)
+const projects = [
+  {
+    title: "E-Commerce Management Platform",
+    description: "A comprehensive platform for managing cross-platform orders, inventory, shipping, and products.",
+    technologies: ["Java", "Spring Boot", "React.js", "Elasticsearch", "Docker"],
+    github: "https://github.com/vnpatel99/e-commerce-platform",
+    demo: "https://e-commerce-platform-demo.herokuapp.com"
+  },
+  {
+    title: "Pharmacy Software System",
+    description: "A secure, efficient system for pharmacy operations and data management.",
+    technologies: ["Java", "Spring Boot", "React.js", "OAuth 2.0", "Kubernetes"],
+    github: "https://github.com/vnpatel99/pharmacy-software-system",
+    demo: "https://pharmacy-software-system-demo.herokuapp.com"
+  },
+  {
+    title: "Database Optimization Initiative",
+    description: "A project to enhance database performance through entity design and query optimization.",
+    technologies: ["JPA", "Hibernate", "SQL", "Maven", "Jenkins"],
+    github: "https://github.com/vnpatel99/database-optimization-initiative",
+    demo: ""
+  }
+]
+
+const skillCategories = [
+  {
+    name: "Programming Languages",
+    skills: [
+      { name: "Java", level: 90 },
+      { name: "JavaScript", level: 80 },
+      { name: "SQL", level: 85 }
+    ]
+  },
+  {
+    name: "Frameworks & Tools",
+    skills: [
+      { name: "Spring Boot", level: 95 },
+      { name: "Spring Framework", level: 90 },
+      { name: "React.js", level: 85 },
+      { name: "Hibernate", level: 80 },
+      { name: "JPA", level: 85 },
+      { name: "Maven", level: 80 },
+      { name: "Jenkins", level: 75 }
+    ]
+  },
+  {
+    name: "Cloud & DevOps",
+    skills: [
+      { name: "Kubernetes", level: 80 },
+      { name: "Docker", level: 85 },
+      { name: "Google Cloud Platform", level: 75 },
+      { name: "AWS", level: 70 }
+    ]
+  },
+  {
+    name: "Software Development",
+    skills: [
+      { name: "Microservices", level: 90 },
+      { name: "RESTful APIs", level: 95 },
+      { name: "Agile", level: 85 },
+      { name: "CI/CD", level: 80 },
+      { name: "OOP", level: 90 },
+      { name: "Design Patterns", level: 85 }
+    ]
+  }
+]
+
+const experiences = [
+  {
+    role: "Software Developer",
+    company: "Vebcommerce",
+    period: "March 2024 – Present",
+    achievements: [
+      "Spearheaded the development of an e-commerce management platform using SOLID principles.",
+      "Employed Java reactive programming for asynchronous operations, boosting system responsiveness.",
+      "Reduced API response times by 35% by integrating Elasticsearch.",
+      "Secured RESTful APIs with Spring Security, OAuth 2.0, and JWT.",
+      "Automated CI/CD pipelines using Jenkins, Docker, and Kubernetes."
+    ]
+  },
+  {
+    role: "Software Developer",
+    company: "Loblaw Companies Limited",
+    period: "October 2020 – February 2024",
+    achievements: [
+      "Built and maintained pharmacy software systems using Java, Spring Boot, and React.js.",
+      "Strengthened application security with OAuth 2.0, JWT, and Spring Security.",
+      "Optimized microservices architecture with Spring Cloud and Kubernetes.",
+      "Developed reusable React.js components, increasing development efficiency by 25%.",
+      "Led troubleshooting efforts that reduced app crashes by 95%."
+    ]
+  },
+  {
+    role: "Java Developer",
+    company: "Otsuka Pharmaceutical India Pvt. Ltd.",
+    period: "July 2018 – September 2020",
+    achievements: [
+      "Enhanced application performance using Spring Boot, resulting in a 25% increase in user satisfaction.",
+      "Designed JPA entities and optimized data access with Hibernate, doubling database performance.",
+      "Wrote SQL procedures and complex queries, improving database efficiency by 30%.",
+      "Automated build processes with Maven and Jenkins, cutting manual effort by 15%.",
+      "Conducted code reviews, reducing bugs by 20% and accelerating release cycles."
+    ]
+  }
+]
+
+const Portfolio = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [activeSection, setActiveSection] = useState('about');
+  
+  const aboutRef = useRef<HTMLElement | null>(null);
+  const experienceRef = useRef<HTMLElement | null>(null);
+  const skillsRef = useRef<HTMLElement | null>(null);
+  const projectsRef = useRef<HTMLElement | null>(null);
+  const contactRef = useRef<HTMLElement | null>(null);
+  const educationRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show/hide scroll to top button
-      if (window.scrollY > 300) {
-        setShowScrollTop(true)
-      } else {
-        setShowScrollTop(false)
-      }
+      setShowScrollTop(window.scrollY > 500);
 
-      // Determine active section
-      const scrollPosition = window.scrollY + 100
-
+      // Find active section
       const sections = [
-        { id: "about", ref: aboutRef },
-        { id: "experience", ref: experienceRef },
-        { id: "skills", ref: skillsRef },
-        { id: "projects", ref: projectsRef },
-      ]
+        { id: 'about', ref: aboutRef },
+        { id: 'experience', ref: experienceRef },
+        { id: 'skills', ref: skillsRef },
+        { id: 'projects', ref: projectsRef },
+        { id: 'education', ref: educationRef },
+        { id: 'contact', ref: contactRef }
+      ];
 
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i]
-        if (section.ref.current && section.ref.current.offsetTop <= scrollPosition) {
-          setActiveSection(section.id)
-          break
+      let currentSection = sections[0].id;
+      const scrollPosition = window.scrollY + 150;
+
+      for (const section of sections) {
+        const element = section.ref.current;
+        if (!element) continue;
+
+        if (element.offsetTop <= scrollPosition) {
+          currentSection = section.id;
         }
       }
-    }
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      setActiveSection(currentSection);
+    };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        menuRef.current && 
-        !menuRef.current.contains(event.target as Node) &&
-        menuButtonRef.current &&
-        !menuButtonRef.current.contains(event.target as Node)
-      ) {
-        setMobileMenuOpen(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleMenuToggle = () => {
-    setMobileMenuOpen(prev => !prev)
-  }
+    setMobileMenuOpen(prev => !prev);
+  };
 
-  const scrollToSection = (sectionRef: React.RefObject<HTMLElement>) => {
-    if (sectionRef.current) {
-      const offset = 100 // Account for fixed header
-      window.scrollTo({
-        top: sectionRef.current.offsetTop - offset,
-        behavior: "smooth",
-      })
-    }
-  }
+  const scrollToSection = (ref: React.RefObject<HTMLElement | null>) => {
+    if (!ref.current) return;
+    const offset = 100;
+    window.scrollTo({
+      top: ref.current.offsetTop - offset,
+      behavior: 'smooth'
+    });
+    setMobileMenuOpen(false);
+  };
 
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
-    })
-  }
+      behavior: 'smooth'
+    });
+  };
+
+  const navLinks = [
+    { name: 'About', ref: aboutRef },
+    { name: 'Experience', ref: experienceRef },
+    { name: 'Skills', ref: skillsRef },
+    { name: 'Projects', ref: projectsRef },
+    { name: 'Education', ref: educationRef },
+    { name: 'Contact', ref: contactRef }
+  ] as const;
+
+  const menuRef = useRef<HTMLDivElement | null>(null)
+  const menuButtonRef = useRef<HTMLButtonElement | null>(null)
 
   return (
-    <div className="relative">
-      {/* Navigation */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-terracotta/20">
-        <div className="container mx-auto px-4 py-4">
-          <nav className="flex justify-between items-center relative">
-            <div className="text-2xl font-bold text-terracotta">
-              <span className="font-serif">VP</span>
-            </div>
-            
-            {/* Mobile Menu */}
-            <div 
-              ref={menuRef}
-              className={cn(
-                "fixed left-0 right-0 top-[72px] bg-white z-40 md:relative md:top-auto md:bg-transparent",
-                "transition-all duration-200 ease-in-out transform",
-                mobileMenuOpen 
-                  ? "opacity-100 translate-y-0 pointer-events-auto" 
-                  : "opacity-0 -translate-y-4 pointer-events-none md:opacity-100 md:translate-y-0 md:pointer-events-auto"
-              )}
-            >
-              <div className="container mx-auto px-4 md:p-0">
-                <ul className="flex flex-col space-y-1 py-4 md:flex-row md:space-y-0 md:space-x-8 md:py-0">
-                  {[
-                    { id: "about", label: "About Me", ref: aboutRef },
-                    { id: "experience", label: "Experience", ref: experienceRef },
-                    { id: "skills", label: "Skills", ref: skillsRef },
-                    { id: "projects", label: "Projects", ref: projectsRef },
-                  ].map((item) => (
-                    <li key={item.id}>
-                      <button
-                        onClick={() => {
-                          scrollToSection(item.ref)
-                          setMobileMenuOpen(false)
-                        }}
-                        className={cn(
-                          "w-full text-left px-4 py-3 rounded-md transition-colors md:px-0 md:py-0",
-                          "font-medium text-gray-700 hover:text-terracotta hover:bg-terracotta/5 md:hover:bg-transparent",
-                          activeSection === item.id && "text-terracotta bg-terracotta/10 md:bg-transparent"
-                        )}
-                      >
-                        {item.label}
-                        {activeSection === item.id && (
-                          <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-terracotta hidden md:block" />
-                        )}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+    <div className="min-h-screen bg-gray-900/90 text-gray-100">
+      <ParticlesBackground />
+      
+      <main className="relative z-10">
+        {/* Navigation */}
+        <header className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-sm">
+          <div className="container mx-auto px-4 py-4">
+            <nav className="flex justify-between items-center relative">
+              <div className="text-2xl font-bold text-white">
+                <span className="text-blue-400 font-serif">VP</span>
               </div>
-            </div>
+              
+              {/* Mobile Menu */}
+              <div 
+                ref={menuRef}
+                className={cn(
+                  "fixed left-0 right-0 top-[72px] bg-gray-900 z-40 md:relative md:top-auto md:bg-transparent",
+                  "transition-all duration-200 ease-in-out transform",
+                  mobileMenuOpen 
+                    ? "opacity-100 translate-y-0 pointer-events-auto" 
+                    : "opacity-0 -translate-y-4 pointer-events-none md:opacity-100 md:translate-y-0 md:pointer-events-auto"
+                )}
+              >
+                <div className="container mx-auto px-4 md:p-0">
+                  <ul className="flex flex-col space-y-1 py-4 md:flex-row md:space-y-0 md:space-x-8 md:py-0">
+                    {navLinks.map((item) => (
+                      <li key={item.name}>
+                        <button
+                          onClick={() => {
+                            scrollToSection(item.ref)
+                            setMobileMenuOpen(false)
+                          }}
+                          className={cn(
+                            "w-full text-left px-4 py-3 rounded-md transition-colors md:px-0 md:py-0",
+                            "font-medium text-gray-400 hover:text-white hover:bg-white/10 md:hover:bg-transparent",
+                            activeSection === item.name.toLowerCase() && "text-blue-400 bg-white/10 md:bg-transparent"
+                          )}
+                        >
+                          {item.name}
+                          {activeSection === item.name.toLowerCase() && (
+                            <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-400 hidden md:block" />
+                          )}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
 
-            {/* Menu Toggle Button */}
-            <button
-              ref={menuButtonRef}
-              onClick={handleMenuToggle}
-              className={cn(
-                "inline-flex items-center justify-center md:hidden z-50",
-                "px-4 py-2 rounded-md bg-terracotta text-white",
-                "hover:bg-terracotta/90 transition-colors",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2"
-              )}
-              aria-expanded={mobileMenuOpen}
-              aria-label="Toggle menu"
-            >
-              Menu
-            </button>
-          </nav>
-        </div>
-      </header>
+              {/* Menu Toggle Button */}
+              <button
+                ref={menuButtonRef}
+                onClick={handleMenuToggle}
+                className={cn(
+                  "inline-flex items-center justify-center md:hidden z-50",
+                  "px-4 py-2 rounded-md bg-gray-800 text-white",
+                  "hover:bg-gray-700 transition-colors",
+                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
+                )}
+                aria-expanded={mobileMenuOpen}
+                aria-label="Toggle menu"
+              >
+                Menu
+              </button>
+            </nav>
+          </div>
+        </header>
 
-      <main className="pt-20">
         {/* About Section */}
         <section
           ref={aboutRef}
           id="about"
-          className="min-h-screen relative flex items-center justify-center"
+          className="min-h-screen flex items-center justify-center pt-20 bg-transparent"
         >
-          <div className="container mx-auto px-4 py-20">
+          <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <div className="mb-8 relative inline-block">
-                <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-saffron mx-auto shadow-lg">
+                <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-blue-500 mx-auto shadow-lg">
                   <Image
                     src="/placeholder.svg?height=200&width=200"
                     alt="Vraj Patel"
@@ -179,52 +281,39 @@ export default function Portfolio() {
                     className="object-cover"
                   />
                 </div>
-                <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-indigo rounded-full flex items-center justify-center text-white">
+                <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white">
                   <span className="text-xl font-bold">VP</span>
                 </div>
               </div>
 
-              <h1 className="text-5xl md:text-6xl font-bold mb-4 text-gray-900 font-serif">
-                Vraj Patel
+              <h1 className="text-5xl font-bold mb-6 text-white">
+                Hi, I'm <span className="text-blue-400">Vraj Patel</span>
               </h1>
-              <h2 className="text-2xl md:text-3xl text-terracotta mb-8">
-                Senior Software Developer
-              </h2>
-
-              <div className="prose prose-lg max-w-3xl mx-auto mb-12 text-gray-700">
-                <p>
-                  I am a Senior Software Developer with over six years of experience specializing in Java, Spring
-                  Framework, and React, delivering secure, scalable solutions like pharmacy software systems and
-                  e-commerce platforms. I excel in building robust microservices, optimizing performance—such as
-                  reducing API response times by 35%—and leading cross-functional teams to success.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap justify-center gap-4">
+              <p className="text-2xl font-semibold mb-8 text-blue-400">Senior Software Developer</p>
+              <p className="text-lg text-gray-300 leading-relaxed mb-12">
+                Passionate about creating elegant solutions to complex problems. 
+                I specialize in full-stack development with expertise in Java, Spring Framework, and React.
+              </p>
+              <div className="flex justify-center space-x-4">
                 <a
-                  href="mailto:vrajpatel.java@gmail.com"
-                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-md hover:shadow-lg transition-shadow"
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection(contactRef)
+                  }}
+                  className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
                 >
-                  <Mail className="w-5 h-5 text-terracotta" />
-                  <span>vrajpatel.java@gmail.com</span>
+                  Get in Touch
                 </a>
                 <a
-                  href="https://x.com/vnpatel99"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-md hover:shadow-lg transition-shadow"
+                  href="#projects"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection(projectsRef)
+                  }}
+                  className="px-8 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
                 >
-                  <Twitter className="w-5 h-5 text-indigo" />
-                  <span>@vnpatel99</span>
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/vraj-patel-5877442a3/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-md hover:shadow-lg transition-shadow"
-                >
-                  <Linkedin className="w-5 h-5 text-indigo" />
-                  <span>LinkedIn</span>
+                  View Projects
                 </a>
               </div>
             </div>
@@ -232,95 +321,32 @@ export default function Portfolio() {
         </section>
 
         {/* Experience Section */}
-        <section ref={experienceRef} id="experience" className="py-20 bg-gradient-to-b from-white to-terracotta/5">
+        <section
+          ref={experienceRef}
+          id="experience"
+          className="py-8 bg-transparent"
+        >
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center mb-16 font-serif text-gray-900 relative">
+            <h2 className="text-3xl font-bold text-center mb-8 text-white">
               Work Experience
-              <span className="block w-24 h-1 bg-saffron mx-auto mt-4"></span>
+              <div className="w-24 h-1 bg-blue-500 mx-auto mt-4"></div>
             </h2>
 
-            <div className="max-w-4xl mx-auto relative">
-              {/* Timeline line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-terracotta to-indigo"></div>
-
-              {/* Experience Items */}
-              <div className="space-y-24">
-                {/* Experience 1 */}
-                <div className="relative">
-                  <div className="absolute left-1/2 transform -translate-x-1/2 -top-4 w-8 h-8 rounded-full border-4 border-white bg-terracotta z-10"></div>
-                  <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div className="md:text-right">
-                      <h3 className="text-2xl font-bold text-gray-900">Software Developer</h3>
-                      <p className="text-lg font-medium text-terracotta">Vebcommerce</p>
-                      <p className="text-gray-600">Edmonton, Canada · On-Site</p>
-                      <p className="text-gray-500">March 2024 – Present</p>
-                    </div>
-                    <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-terracotta">
-                      <ul className="list-disc list-inside space-y-2 text-gray-700">
-                        <li>
-                          Spearheaded the development of an e-commerce management platform using SOLID principles.
-                        </li>
-                        <li>
-                          Employed Java reactive programming for asynchronous operations, boosting system
-                          responsiveness.
-                        </li>
-                        <li>Reduced API response times by 35% by integrating Elasticsearch.</li>
-                        <li>Secured RESTful APIs with Spring Security, OAuth 2.0, and JWT.</li>
-                        <li>Automated CI/CD pipelines using Jenkins, Docker, and Kubernetes.</li>
-                      </ul>
-                    </div>
+            <div className="max-w-4xl mx-auto space-y-6">
+              {experiences.map((experience, index) => (
+                <div key={index} className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl hover:bg-gray-900/60 transition-colors">
+                  <div className="flex flex-col md:flex-row justify-between mb-4">
+                    <h3 className="text-xl font-semibold text-white">{experience.role}</h3>
+                    <p className="text-blue-400">{experience.period}</p>
                   </div>
+                  <h4 className="text-lg text-gray-300 mb-2">{experience.company}</h4>
+                  <ul className="list-disc list-inside space-y-2 text-gray-300">
+                    {experience.achievements.map((achievement, achievementIndex) => (
+                      <li key={achievementIndex}>{achievement}</li>
+                    ))}
+                  </ul>
                 </div>
-
-                {/* Experience 2 */}
-                <div className="relative">
-                  <div className="absolute left-1/2 transform -translate-x-1/2 -top-4 w-8 h-8 rounded-full border-4 border-white bg-saffron z-10"></div>
-                  <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div className="md:order-2 md:text-left">
-                      <h3 className="text-2xl font-bold text-gray-900">Software Developer</h3>
-                      <p className="text-lg font-medium text-saffron">Loblaw Companies Limited</p>
-                      <p className="text-gray-600">Canada · Remote</p>
-                      <p className="text-gray-500">October 2020 – February 2024</p>
-                    </div>
-                    <div className="md:order-1 bg-white p-6 rounded-lg shadow-md border-r-4 border-saffron">
-                      <ul className="list-disc list-inside space-y-2 text-gray-700">
-                        <li>Built and maintained pharmacy software systems using Java, Spring Boot, and React.js.</li>
-                        <li>Strengthened application security with OAuth 2.0, JWT, and Spring Security.</li>
-                        <li>Optimized microservices architecture with Spring Cloud and Kubernetes.</li>
-                        <li>Developed reusable React.js components, increasing development efficiency by 25%.</li>
-                        <li>Led troubleshooting efforts that reduced app crashes by 95%.</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Experience 3 */}
-                <div className="relative">
-                  <div className="absolute left-1/2 transform -translate-x-1/2 -top-4 w-8 h-8 rounded-full border-4 border-white bg-emerald-600 z-10"></div>
-                  <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div className="md:text-right">
-                      <h3 className="text-2xl font-bold text-gray-900">Java Developer</h3>
-                      <p className="text-lg font-medium text-emerald-600">Otsuka Pharmaceutical India Pvt. Ltd.</p>
-                      <p className="text-gray-600">India · On-Site</p>
-                      <p className="text-gray-500">July 2018 – September 2020</p>
-                    </div>
-                    <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-emerald-600">
-                      <ul className="list-disc list-inside space-y-2 text-gray-700">
-                        <li>
-                          Enhanced application performance using Spring Boot, resulting in a 25% increase in user
-                          satisfaction.
-                        </li>
-                        <li>
-                          Designed JPA entities and optimized data access with Hibernate, doubling database performance.
-                        </li>
-                        <li>Wrote SQL procedures and complex queries, improving database efficiency by 30%.</li>
-                        <li>Automated build processes with Maven and Jenkins, cutting manual effort by 15%.</li>
-                        <li>Conducted code reviews, reducing bugs by 20% and accelerating release cycles.</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -329,84 +355,68 @@ export default function Portfolio() {
         <section 
           ref={skillsRef}
           id="skills" 
-          className="py-16 bg-gray-50"
+          className="py-8 bg-transparent"
         >
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">
+            <h2 className="text-3xl font-bold text-center mb-8 text-white">
               Technical Skills
-              <div className="w-24 h-1 bg-indigo-900 mx-auto mt-4"></div>
+              <div className="w-24 h-1 bg-blue-500 mx-auto mt-4"></div>
             </h2>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Programming Languages */}
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="text-xl font-bold text-[#1e1b4b] mb-4">
+              <div className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl">
+                <h3 className="text-xl font-bold text-blue-400 mb-4">
                   Programming Languages
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">Java</span>
-                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">JavaScript</span>
-                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">SQL</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">Java</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">JavaScript</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">SQL</span>
                 </div>
               </div>
 
               {/* Frameworks & Tools */}
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="text-xl font-bold text-[#991b1b] mb-4">
+              <div className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl">
+                <h3 className="text-xl font-bold text-emerald-400 mb-4">
                   Frameworks & Tools
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">Spring Boot</span>
-                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">Spring Framework</span>
-                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">React.js</span>
-                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">Hibernate</span>
-                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">JPA</span>
-                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">Maven</span>
-                  <span className="inline-flex items-center rounded-full bg-[#991b1b] px-4 py-1 text-sm font-medium text-white hover:bg-[#b91c1c] transition-colors">Jenkins</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">Spring Boot</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">Spring Framework</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">React.js</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">Hibernate</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">JPA</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">Maven</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">Jenkins</span>
                 </div>
               </div>
 
               {/* Cloud & DevOps */}
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="text-xl font-bold text-[#ea580c] mb-4">
+              <div className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl">
+                <h3 className="text-xl font-bold text-purple-400 mb-4">
                   Cloud & DevOps
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center rounded-full bg-[#ea580c] px-4 py-1 text-sm font-medium text-white hover:bg-[#ff8c00] transition-colors">Kubernetes</span>
-                  <span className="inline-flex items-center rounded-full bg-[#ea580c] px-4 py-1 text-sm font-medium text-white hover:bg-[#ff8c00] transition-colors">Docker</span>
-                  <span className="inline-flex items-center rounded-full bg-[#ea580c] px-4 py-1 text-sm font-medium text-white hover:bg-[#ff8c00] transition-colors">Google Cloud Platform (GCP)</span>
-                  <span className="inline-flex items-center rounded-full bg-[#ea580c] px-4 py-1 text-sm font-medium text-white hover:bg-[#ff8c00] transition-colors">Jenkins</span>
-                  <span className="inline-flex items-center rounded-full bg-[#ea580c] px-4 py-1 text-sm font-medium text-white hover:bg-[#ff8c00] transition-colors">AWS</span>
-                </div>
-              </div>
-
-              {/* Database Management */}
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="text-xl font-bold text-[#047857] mb-4">
-                  Database Management
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center rounded-full bg-[#047857] px-4 py-1 text-sm font-medium text-white hover:bg-[#04c18f] transition-colors">SQL Server</span>
-                  <span className="inline-flex items-center rounded-full bg-[#047857] px-4 py-1 text-sm font-medium text-white hover:bg-[#04c18f] transition-colors">MySQL</span>
-                  <span className="inline-flex items-center rounded-full bg-[#047857] px-4 py-1 text-sm font-medium text-white hover:bg-[#04c18f] transition-colors">PostgreSQL</span>
-                  <span className="inline-flex items-center rounded-full bg-[#047857] px-4 py-1 text-sm font-medium text-white hover:bg-[#04c18f] transition-colors">Oracle</span>
-                  <span className="inline-flex items-center rounded-full bg-[#047857] px-4 py-1 text-sm font-medium text-white hover:bg-[#04c18f] transition-colors">MongoDB</span>
+                  <span className="inline-flex items-center rounded-full bg-purple-500/20 px-4 py-1 text-sm font-medium text-purple-300 hover:bg-purple-500/30 transition-colors">Kubernetes</span>
+                  <span className="inline-flex items-center rounded-full bg-purple-500/20 px-4 py-1 text-sm font-medium text-purple-300 hover:bg-purple-500/30 transition-colors">Docker</span>
+                  <span className="inline-flex items-center rounded-full bg-purple-500/20 px-4 py-1 text-sm font-medium text-purple-300 hover:bg-purple-500/30 transition-colors">Google Cloud Platform</span>
+                  <span className="inline-flex items-center rounded-full bg-purple-500/20 px-4 py-1 text-sm font-medium text-purple-300 hover:bg-purple-500/30 transition-colors">AWS</span>
                 </div>
               </div>
 
               {/* Software Development */}
-              <div className="bg-white p-6 rounded-lg shadow col-span-1 md:col-span-2">
-                <h3 className="text-xl font-bold text-[#1e1b4b] mb-4">
+              <div className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl">
+                <h3 className="text-xl font-bold text-blue-400 mb-4">
                   Software Development
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">Microservices Architecture</span>
-                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">RESTful APIs</span>
-                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">Agile Methodologies</span>
-                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">CI/CD</span>
-                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">Object-Oriented Programming</span>
-                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">Design Patterns</span>
-                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">Optimization</span>
-                  <span className="inline-flex items-center rounded-full bg-[#1e1b4b] px-4 py-1 text-sm font-medium text-white hover:bg-[#2d2a5d] transition-colors">API Integration</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">Microservices</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">RESTful APIs</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">Agile</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">CI/CD</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">OOP</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">Design Patterns</span>
                 </div>
               </div>
             </div>
@@ -414,161 +424,129 @@ export default function Portfolio() {
         </section>
 
         {/* Projects Section */}
-        <section ref={projectsRef} id="projects" className="py-20 bg-gradient-to-b from-indigo/5 to-white">
+        <section
+          ref={projectsRef}
+          id="projects"
+          className="py-8 bg-transparent"
+        >
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center mb-16 font-serif text-gray-900 relative">
-              Projects
-              <span className="block w-24 h-1 bg-emerald-600 mx-auto mt-4"></span>
+            <h2 className="text-3xl font-bold text-center mb-8 text-white">
+              Featured Projects
+              <div className="w-24 h-1 bg-blue-500 mx-auto mt-4"></div>
             </h2>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Project 1 */}
-              <Card className="overflow-hidden">
-                <CardHeader>
-                  <CardTitle className="text-xl">E-Commerce Management Platform</CardTitle>
-                  <CardDescription>
-                    A comprehensive platform for managing cross-platform orders, inventory, shipping, and products.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Java</span>
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Spring Boot</span>
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">React.js</span>
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Elasticsearch</span>
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Docker</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+              {projects.map((project, index) => (
+                <div key={index} className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl hover:bg-gray-900/60 transition-colors">
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-2 text-white">{project.title}</h3>
+                    <p className="text-gray-300 mb-4">{project.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.map((tech, techIndex) => (
+                        <span
+                          key={techIndex}
+                          className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-600">
-                    Reduced API response times by 35% and improved deployment frequency by 40%.
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* Project 2 */}
-              <Card className="overflow-hidden">
-                <CardHeader>
-                  <CardTitle className="text-xl">Pharmacy Software System</CardTitle>
-                  <CardDescription>
-                    A secure, efficient system for pharmacy operations and data management.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Java</span>
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Spring Boot</span>
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">React.js</span>
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">OAuth 2.0</span>
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Kubernetes</span>
-                  </div>
-                  <p className="text-sm text-gray-600">Cut vulnerabilities by 40% and reduced app crashes by 95%.</p>
-                </CardContent>
-              </Card>
-
-              {/* Project 3 */}
-              <Card className="overflow-hidden">
-                <CardHeader>
-                  <CardTitle className="text-xl">Database Optimization Initiative</CardTitle>
-                  <CardDescription>
-                    A project to enhance database performance through entity design and query optimization.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">JPA</span>
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Hibernate</span>
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">SQL</span>
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Maven</span>
-                    <span className="inline-flex items-center rounded-full bg-gray-100 px-4 py-1 text-sm font-medium text-gray-600">Jenkins</span>
-                  </div>
-                  <p className="text-sm text-gray-600">Doubled database performance and boosted efficiency by 30%.</p>
-                </CardContent>
-              </Card>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Education Section */}
-        <section className="py-20 bg-gradient-to-b from-white to-terracotta/10">
+        <section ref={educationRef} id="education" className="py-8 bg-transparent">
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center mb-16 font-serif text-gray-900 relative">
+            <h2 className="text-3xl font-bold text-center mb-8 text-white">
               Education
-              <span className="block w-24 h-1 bg-terracotta mx-auto mt-4"></span>
+              <div className="w-24 h-1 bg-blue-500 mx-auto mt-4"></div>
             </h2>
-
-            <div className="max-w-2xl mx-auto">
-              <Card className="overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-terracotta/20 to-saffron/20">
-                  <CardTitle className="text-xl text-gray-900">
-                    Computer Programming in Information Technology
-                  </CardTitle>
-                  <CardDescription className="text-gray-700 font-medium">
-                    Seneca College | Toronto, Canada
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pt-4">
-                  <p className="text-gray-600">May 2020 – April 2022</p>
-                </CardContent>
-              </Card>
+            <div className="max-w-3xl mx-auto">
+              <div className="bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-xl hover:bg-gray-900/60 transition-colors">
+                <h3 className="text-xl font-semibold text-white mb-2">Computer Programming</h3>
+                <p className="text-gray-400 mb-4">Seneca College</p>
+                <p className="text-gray-400">2020 - 2022</p>
+              </div>
             </div>
           </div>
         </section>
-      </main>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-6 font-serif">Get In Touch</h2>
-            <p className="mb-8">
-              I'm currently looking for new opportunities. If you have a project that needs my expertise, please feel
-              free to reach out.
-            </p>
+        {/* Contact Section */}
+        <section ref={contactRef} id="contact" className="py-8 bg-transparent">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-8 text-white">
+              Get In Touch
+              <div className="w-24 h-1 bg-blue-500 mx-auto mt-4"></div>
+            </h2>
 
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <a
-                href="mailto:vrajpatel.java@gmail.com"
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-terracotta/90"
-              >
-                <Mail className="w-5 h-5" />
-                <span>Email</span>
-              </a>
-              <a
-                href="https://x.com/vnpatel99"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo/90"
-              >
-                <Twitter className="w-5 h-5" />
-                <span>Twitter</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/vraj-patel-5877442a3/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-saffron/90"
-              >
-                <Linkedin className="w-5 h-5" />
-                <span>LinkedIn</span>
-              </a>
-            </div>
+            <div className="max-w-2xl mx-auto bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-xl">
+              <div className="space-y-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <Mail className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Email</h3>
+                    <a href="mailto:vrajpatel.java@gmail.com" className="text-gray-400 hover:text-blue-400 transition-colors">vrajpatel.java@gmail.com</a>
+                  </div>
+                </div>
 
-            <div className="border-t border-gray-700 pt-8">
-              <p className="text-gray-400"> 2024 Vraj Patel. All rights reserved.</p>
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <svg className="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">X (Twitter)</h3>
+                    <a href="https://x.com/vnpatel99" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">@vnpatel99</a>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <svg className="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">LinkedIn</h3>
+                    <a href="https://www.linkedin.com/in/vraj-patel-5877442a3/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">Vraj Patel</a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </footer>
+        </section>
 
-      {/* Scroll to top button */}
-      <button
-        onClick={scrollToTop}
-        className={cn(
-          "fixed bottom-8 right-8 w-12 h-12 rounded-full bg-terracotta text-white flex items-center justify-center shadow-lg transition-all duration-300 z-40",
-          showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none",
-        )}
-      >
-        <ArrowUp className="w-6 h-6" />
-      </button>
+        {/* Footer */}
+        <footer className="py-8 bg-gray-900/50 backdrop-blur-sm">
+          <div className="container mx-auto px-4">
+            <div className="text-center text-gray-400">
+              <p>&copy; {new Date().getFullYear()} Vraj Patel. All rights reserved.</p>
+            </div>
+          </div>
+        </footer>
+
+        {/* Scroll to top button */}
+        <button
+          onClick={scrollToTop}
+          className={cn(
+            "fixed bottom-8 right-8 w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-lg transition-all duration-300 z-40 hover:bg-blue-600",
+            showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
+          )}
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+          </svg>
+        </button>
+      </main>
     </div>
-  )
-}
+  );
+};
+
+export default Portfolio;
