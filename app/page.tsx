@@ -329,15 +329,27 @@ export default function Portfolio() {
                     Programming Languages
                   </h3>
                   <div className="space-y-4">
-                    {skills.languages.map((language) => (
-                      <div key={language.name} className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                        <Image src={language.logo} alt={language.name} width={40} height={40} className="rounded" />
-                        <div>
-                          <h4 className="font-semibold">{language.name}</h4>
-                          <p className="text-sm text-gray-600">Enterprise & Backend Development</p>
-                        </div>
+                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <Image src="/tech-logos/java.svg" alt="Java" width={40} height={40} className="rounded" />
+                      <div>
+                        <h4 className="font-semibold">Java</h4>
+                        <p className="text-sm text-gray-600">Enterprise & Backend Development</p>
                       </div>
-                    ))}
+                    </div>
+                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <Image src="/tech-logos/typescript.svg" alt="TypeScript" width={40} height={40} className="rounded" />
+                      <div>
+                        <h4 className="font-semibold">TypeScript</h4>
+                        <p className="text-sm text-gray-600">Type-safe JavaScript Development</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <Image src="/tech-logos/python.svg" alt="Python" width={40} height={40} className="rounded" />
+                      <div>
+                        <h4 className="font-semibold">Python</h4>
+                        <p className="text-sm text-gray-600">Scripting & Data Analysis</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -348,15 +360,20 @@ export default function Portfolio() {
                     Frameworks & Libraries
                   </h3>
                   <div className="space-y-4">
-                    {skills.frameworks.map((framework) => (
-                      <div key={framework.name} className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                        <Image src={framework.logo} alt={framework.name} width={40} height={40} className="rounded" />
-                        <div>
-                          <h4 className="font-semibold">{framework.name}</h4>
-                          <p className="text-sm text-gray-600">Enterprise Java Development</p>
-                        </div>
+                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <Image src="/tech-logos/spring.svg" alt="Spring" width={40} height={40} className="rounded" />
+                      <div>
+                        <h4 className="font-semibold">Spring Framework</h4>
+                        <p className="text-sm text-gray-600">Enterprise Java Development</p>
                       </div>
-                    ))}
+                    </div>
+                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <Image src="/tech-logos/react.svg" alt="React" width={40} height={40} className="rounded" />
+                      <div>
+                        <h4 className="font-semibold">React</h4>
+                        <p className="text-sm text-gray-600">Frontend Development</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -367,15 +384,27 @@ export default function Portfolio() {
                     Tools & Technologies
                   </h3>
                   <div className="space-y-4">
-                    {skills.tools.map((tool) => (
-                      <div key={tool.name} className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                        <Image src={tool.logo} alt={tool.name} width={40} height={40} className="rounded" />
-                        <div>
-                          <h4 className="font-semibold">{tool.name}</h4>
-                          <p className="text-sm text-gray-600">Containerization</p>
-                        </div>
+                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <Image src="/tech-logos/docker.svg" alt="Docker" width={40} height={40} className="rounded" />
+                      <div>
+                        <h4 className="font-semibold">Docker</h4>
+                        <p className="text-sm text-gray-600">Containerization</p>
                       </div>
-                    ))}
+                    </div>
+                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <Image src="/tech-logos/kubernetes.svg" alt="Kubernetes" width={40} height={40} className="rounded" />
+                      <div>
+                        <h4 className="font-semibold">Kubernetes</h4>
+                        <p className="text-sm text-gray-600">Container Orchestration</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                      <Image src="/tech-logos/aws.svg" alt="AWS" width={40} height={40} className="rounded" />
+                      <div>
+                        <h4 className="font-semibold">AWS</h4>
+                        <p className="text-sm text-gray-600">Cloud Computing</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
