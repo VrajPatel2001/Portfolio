@@ -1,36 +1,30 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useRef, useEffect } from "react"
-import { cn } from "../lib/utils"
 import ParticlesBackground from "../components/ParticlesBackground"
 import Image from "next/image"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
-import { ArrowUp, Mail, Twitter, Linkedin } from "lucide-react"
+import { ArrowUp, Mail, Twitter, Linkedin, Moon, Sun } from "lucide-react"
+import { useTheme } from "../contexts/ThemeContext"
+import AnimatedName from "../components/AnimatedName"
 
 const projects = [
   {
     title: "E-Commerce Management Platform",
     description: "A comprehensive platform for managing cross-platform orders, inventory, shipping, and products.",
     technologies: ["Java", "Spring Boot", "React.js", "Elasticsearch", "Docker"],
-    github: "https://github.com/vnpatel99/e-commerce-platform",
-    demo: "https://e-commerce-platform-demo.herokuapp.com"
   },
   {
     title: "Pharmacy Software System",
     description: "A secure, efficient system for pharmacy operations and data management.",
     technologies: ["Java", "Spring Boot", "React.js", "OAuth 2.0", "Kubernetes"],
-    github: "https://github.com/vnpatel99/pharmacy-software-system",
-    demo: "https://pharmacy-software-system-demo.herokuapp.com"
   },
   {
     title: "Database Optimization Initiative",
     description: "A project to enhance database performance through entity design and query optimization.",
     technologies: ["JPA", "Hibernate", "SQL", "Maven", "Jenkins"],
-    github: "https://github.com/vnpatel99/database-optimization-initiative",
-    demo: ""
   }
 ]
 
@@ -117,6 +111,8 @@ const experiences = [
 ]
 
 export default function Portfolio() {
+  const { theme, toggleTheme } = useTheme()
+  const isDark = theme === 'dark'
   const aboutRef = useRef<HTMLElement>(null)
   const experienceRef = useRef<HTMLElement>(null)
   const skillsRef = useRef<HTMLElement>(null)
@@ -182,62 +178,65 @@ export default function Portfolio() {
   const menuButtonRef = useRef<HTMLButtonElement | null>(null)
 
   return (
-    <div className="min-h-screen bg-gray-900/90 text-gray-100">
+    <div className="min-h-screen transition-colors duration-300 bg-background text-foreground">
       <ParticlesBackground />
       
       <main className="relative z-10">
         {/* Navigation */}
         <header className="sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
-            <nav suppressHydrationWarning className="flex justify-end items-center relative">
+            <nav suppressHydrationWarning className="flex justify-end items-center relative gap-4">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg hover:bg-gray-700/50 transition-colors duration-200"
+                aria-label="Toggle theme"
+              >
+                {isDark ? (
+                  <Sun className="w-5 h-5" />
+                ) : (
+                  <Moon className="w-5 h-5" />
+                )}
+              </button>
               <button
                 ref={menuButtonRef}
                 onClick={toggleMenu}
-                className="md:hidden text-gray-300 hover:text-white transition-transform duration-200"
+                className="md:hidden text-current hover:text-primary transition-transform duration-200"
                 aria-label="Toggle menu"
               >
                 <svg
-                  className={cn(
-                    "w-6 h-6 transition-transform duration-200",
-                    isOpen ? "rotate-90" : ""
-                  )}
+                  className={`w-6 h-6 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                   fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
                   stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M4 6h16M4 12h16M4 18h16"></path>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+                  />
                 </svg>
               </button>
 
               <div
                 ref={menuRef}
-                className={cn(
-                  'absolute right-0 top-full mt-2 py-2 bg-gray-900/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-800',
-                  'md:relative md:top-0 md:mt-0 md:py-0 md:bg-transparent md:backdrop-blur-none md:border-0 md:shadow-none md:flex',
-                  'transform transition-all duration-200 ease-in-out origin-top',
-                  isOpen 
-                    ? 'opacity-100 scale-y-100 translate-y-0'
-                    : 'opacity-0 scale-y-95 -translate-y-2 md:opacity-100 md:scale-y-100 md:translate-y-0'
-                )}
+                className={`absolute right-0 top-full mt-2 py-2 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200 dark:border-gray-800
+                  md:relative md:top-0 md:mt-0 md:py-0 md:bg-transparent md:backdrop-blur-none md:border-0 md:shadow-none md:flex
+                  transform transition-all duration-200 ease-in-out origin-top
+                  ${isOpen ? 'opacity-100 scale-y-100 translate-y-0' : 'opacity-0 scale-y-95 -translate-y-2 md:opacity-100 md:scale-y-100 md:translate-y-0'}`}
               >
                 <ul className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8">
                   {sections.map((section) => (
                     <li key={section}>
                       <button
                         onClick={() => scrollToSection(section)}
-                        className={cn(
-                          'w-full text-left px-4 py-2 text-sm font-medium',
-                          'transition-all duration-200 ease-in-out',
-                          'hover:bg-gray-800/50 md:hover:bg-transparent',
-                          'relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-blue-400',
-                          'after:transition-all after:duration-200 after:ease-in-out',
-                          activeSection === section
-                            ? 'text-blue-400 after:w-full'
-                            : 'text-gray-300 hover:text-white after:w-0 hover:after:w-full'
-                        )}
+                        className={`w-full text-left px-4 py-2 text-sm font-medium
+                          transition-all duration-200 ease-in-out
+                          hover:bg-gray-200 dark:hover:bg-gray-800/50 md:hover:bg-transparent
+                          relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-blue-500 dark:after:bg-blue-400
+                          after:transition-all after:duration-200 after:ease-in-out
+                          ${activeSection === section ? 'text-blue-600 dark:text-blue-400 after:w-full' : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white after:w-0 hover:after:w-full'}`}
                       >
                         {section.charAt(0).toUpperCase() + section.slice(1)}
                       </button>
@@ -253,14 +252,14 @@ export default function Portfolio() {
         <section
           ref={aboutRef}
           id="about"
-          className="min-h-screen flex items-center justify-center pt-16 bg-transparent"
+          className="min-h-screen flex items-center justify-center pt-5 bg-transparent"
         >
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <div className="mb-8 relative inline-block">
                 <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-blue-500 mx-auto shadow-lg">
                   <Image
-                    src="/placeholder.svg?height=200&width=200"
+                    src="/picofme.png?height=200&width=200"
                     alt="Vraj Patel"
                     width={200}
                     height={200}
@@ -272,11 +271,11 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              <h1 className="text-5xl font-bold mb-6 text-white">
-                Hi, I'm <span className="text-blue-400">Vraj Patel</span>
+              <h1 className="text-5xl font-bold mb-6 text-gray-900 dark:text-white">
+                Hi, I'm <AnimatedName />
               </h1>
-              <p className="text-2xl font-semibold mb-8 text-blue-400">Senior Software Developer</p>
-              <p className="text-lg text-gray-300 leading-relaxed mb-12">
+              <p className="text-2xl font-semibold mb-8 text-blue-600 dark:text-blue-400">Senior Software Developer</p>
+              <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-12">
                 Passionate about creating elegant solutions to complex problems. 
                 I specialize in full-stack development with expertise in Java, Spring Framework, and React.
               </p>
@@ -297,7 +296,7 @@ export default function Portfolio() {
                     e.preventDefault()
                     scrollToSection('projects')
                   }}
-                  className="px-8 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                  className="px-8 py-3 bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
                 >
                   View Projects
                 </a>
@@ -313,20 +312,20 @@ export default function Portfolio() {
           className="py-8 pt-16 bg-transparent"
         >
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-8 text-white">
+            <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
               Work Experience
               <div className="w-24 h-1 bg-blue-500 mx-auto mt-4"></div>
             </h2>
 
             <div className="max-w-4xl mx-auto space-y-6">
               {experiences.map((experience, index) => (
-                <div key={index} className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl hover:bg-gray-900/60 transition-colors">
+                <div key={index} className="bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl hover:bg-white/90 dark:hover:bg-gray-900/60 transition-colors">
                   <div className="flex flex-col md:flex-row justify-between mb-4">
-                    <h3 className="text-xl font-semibold text-white">{experience.role}</h3>
-                    <p className="text-blue-400">{experience.period}</p>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{experience.role}</h3>
+                    <p className="text-blue-600 dark:text-blue-400">{experience.period}</p>
                   </div>
-                  <h4 className="text-lg text-gray-300 mb-2">{experience.company}</h4>
-                  <ul className="list-disc list-inside space-y-2 text-gray-300">
+                  <h4 className="text-lg text-blue-600 dark:text-blue-400 mb-2">{experience.company}</h4>
+                  <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
                     {experience.achievements.map((achievement, achievementIndex) => (
                       <li key={achievementIndex}>{achievement}</li>
                     ))}
@@ -344,65 +343,65 @@ export default function Portfolio() {
           className="py-8 pt-16 bg-transparent"
         >
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-8 text-white">
+            <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
               Technical Skills
               <div className="w-24 h-1 bg-blue-500 mx-auto mt-4"></div>
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
               {/* Programming Languages */}
-              <div className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl">
-                <h3 className="text-xl font-bold text-blue-400 mb-4">
+              <div className="bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                   Programming Languages
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">Java</span>
-                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">JavaScript</span>
-                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">SQL</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/30 transition-colors">Java</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/30 transition-colors">JavaScript</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/30 transition-colors">SQL</span>
                 </div>
               </div>
 
               {/* Frameworks & Tools */}
-              <div className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl">
-                <h3 className="text-xl font-bold text-emerald-400 mb-4">
+              <div className="bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                   Frameworks & Tools
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">Spring Boot</span>
-                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">Spring Framework</span>
-                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">React.js</span>
-                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">Hibernate</span>
-                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">JPA</span>
-                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">Maven</span>
-                  <span className="inline-flex items-center rounded-full bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-300 hover:bg-emerald-500/30 transition-colors">Jenkins</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-500/30 transition-colors">Spring Boot</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-500/30 transition-colors">Spring Framework</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-500/30 transition-colors">React.js</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-500/30 transition-colors">Hibernate</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-500/30 transition-colors">JPA</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-500/30 transition-colors">Maven</span>
+                  <span className="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-500/20 px-4 py-1 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-500/30 transition-colors">Jenkins</span>
                 </div>
               </div>
 
               {/* Cloud & DevOps */}
-              <div className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl">
-                <h3 className="text-xl font-bold text-purple-400 mb-4">
+              <div className="bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                   Cloud & DevOps
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center rounded-full bg-purple-500/20 px-4 py-1 text-sm font-medium text-purple-300 hover:bg-purple-500/30 transition-colors">Kubernetes</span>
-                  <span className="inline-flex items-center rounded-full bg-purple-500/20 px-4 py-1 text-sm font-medium text-purple-300 hover:bg-purple-500/30 transition-colors">Docker</span>
-                  <span className="inline-flex items-center rounded-full bg-purple-500/20 px-4 py-1 text-sm font-medium text-purple-300 hover:bg-purple-500/30 transition-colors">Google Cloud Platform</span>
-                  <span className="inline-flex items-center rounded-full bg-purple-500/20 px-4 py-1 text-sm font-medium text-purple-300 hover:bg-purple-500/30 transition-colors">AWS</span>
+                  <span className="inline-flex items-center rounded-full bg-purple-100 dark:bg-purple-500/20 px-4 py-1 text-sm font-medium text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-500/30 transition-colors">Kubernetes</span>
+                  <span className="inline-flex items-center rounded-full bg-purple-100 dark:bg-purple-500/20 px-4 py-1 text-sm font-medium text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-500/30 transition-colors">Docker</span>
+                  <span className="inline-flex items-center rounded-full bg-purple-100 dark:bg-purple-500/20 px-4 py-1 text-sm font-medium text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-500/30 transition-colors">Google Cloud Platform</span>
+                  <span className="inline-flex items-center rounded-full bg-purple-100 dark:bg-purple-500/20 px-4 py-1 text-sm font-medium text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-500/30 transition-colors">AWS</span>
                 </div>
               </div>
 
               {/* Software Development */}
-              <div className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl">
-                <h3 className="text-xl font-bold text-blue-400 mb-4">
+              <div className="bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
                   Software Development
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">Microservices</span>
-                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">RESTful APIs</span>
-                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">Agile</span>
-                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">CI/CD</span>
-                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">OOP</span>
-                  <span className="inline-flex items-center rounded-full bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-300 hover:bg-blue-500/30 transition-colors">Design Patterns</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/30 transition-colors">Microservices</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/30 transition-colors">RESTful APIs</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/30 transition-colors">Agile</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/30 transition-colors">CI/CD</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/30 transition-colors">OOP</span>
+                  <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-500/20 px-4 py-1 text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/30 transition-colors">Design Patterns</span>
                 </div>
               </div>
             </div>
@@ -416,22 +415,22 @@ export default function Portfolio() {
           className="py-8 pt-16 bg-transparent"
         >
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-8 text-white">
+            <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
               Featured Projects
               <div className="w-24 h-1 bg-blue-500 mx-auto mt-4"></div>
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
               {projects.map((project, index) => (
-                <div key={index} className="bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl hover:bg-gray-900/60 transition-colors">
+                <div key={index} className="bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl hover:bg-white/90 dark:hover:bg-gray-900/60 transition-colors">
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2 text-white">{project.title}</h3>
-                    <p className="text-gray-300 mb-4">{project.description}</p>
+                    <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{project.title}</h3>
+                    <p className="text-gray-700 dark:text-gray-300 mb-4">{project.description}</p>
                     <div className="flex flex-wrap gap-2">
                       {project.technologies.map((tech, techIndex) => (
                         <span
                           key={techIndex}
-                          className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm"
+                          className="px-3 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400 rounded-full text-sm"
                         >
                           {tech}
                         </span>
@@ -447,15 +446,15 @@ export default function Portfolio() {
         {/* Education Section */}
         <section ref={educationRef} id="education" className="py-8 pt-16 bg-transparent">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-8 text-white">
+            <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
               Education
               <div className="w-24 h-1 bg-blue-500 mx-auto mt-4"></div>
             </h2>
             <div className="max-w-3xl mx-auto">
-              <div className="bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-xl hover:bg-gray-900/60 transition-colors">
-                <h3 className="text-xl font-semibold text-white mb-2">Computer Programming</h3>
-                <p className="text-gray-400 mb-4">Seneca College</p>
-                <p className="text-gray-400">2020 - 2022</p>
+              <div className="bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-xl hover:bg-white/90 dark:hover:bg-gray-900/60 transition-colors">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Computer Programming</h3>
+                <p className="text-gray-700 dark:text-gray-400 mb-4">Seneca College</p>
+                <p className="text-gray-700 dark:text-gray-400">2020 - 2022</p>
               </div>
             </div>
           </div>
@@ -464,44 +463,44 @@ export default function Portfolio() {
         {/* Contact Section */}
         <section ref={contactRef} id="contact" className="py-8 pt-16 bg-transparent">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-8 text-white">
+            <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
               Get In Touch
               <div className="w-24 h-1 bg-blue-500 mx-auto mt-4"></div>
             </h2>
 
-            <div className="max-w-2xl mx-auto bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-xl">
+            <div className="max-w-2xl mx-auto bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm p-8 rounded-lg shadow-xl">
               <div className="space-y-6">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-blue-400" />
+                  <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center">
+                    <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white">Email</h3>
-                    <a href="mailto:vrajpatel.java@gmail.com" className="text-gray-400 hover:text-blue-400 transition-colors">vrajpatel.java@gmail.com</a>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Email</h3>
+                    <a href="mailto:vrajpatel.java@gmail.com" className="text-gray-700 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">vrajpatel.java@gmail.com</a>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center">
+                    <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white">X (Twitter)</h3>
-                    <a href="https://x.com/vnpatel99" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">@vnpatel99</a>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">X (Twitter)</h3>
+                    <a href="https://x.com/vnpatel99" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">@vnpatel99</a>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center">
+                    <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white">LinkedIn</h3>
-                    <a href="https://www.linkedin.com/in/vraj-patel-5877442a3/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">Vraj Patel</a>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">LinkedIn</h3>
+                    <a href="https://www.linkedin.com/in/vraj-patel-5877442a3/" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Vraj Patel</a>
                   </div>
                 </div>
               </div>
@@ -510,9 +509,9 @@ export default function Portfolio() {
         </section>
 
         {/* Footer */}
-        <footer className="py-8 bg-gray-900/50 backdrop-blur-sm">
+        <footer className="py-8 bg-gray-100 dark:bg-gray-900/50 backdrop-blur-sm">
           <div className="container mx-auto px-4">
-            <div className="text-center text-gray-400">
+            <div className="text-center text-gray-700 dark:text-gray-400">
               <p>&copy; {new Date().getFullYear()} Vraj Patel. All rights reserved.</p>
             </div>
           </div>

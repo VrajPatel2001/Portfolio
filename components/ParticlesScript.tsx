@@ -7,11 +7,13 @@ export default function ParticlesScript() {
   const [isLoaded, setIsLoaded] = useState(false)
 
   return (
-    <Script
-      src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"
-      strategy="afterInteractive"
-      onLoad={() => setIsLoaded(true)}
-      id="particles-js-script"
-    />
+    <>
+      <Script
+        src="https://cdn.jsdelivr.net/npm/particlesjs@2.2.3/dist/particles.min.js"
+        strategy="beforeInteractive"
+        onLoad={() => setIsLoaded(true)}
+        id="particles-js-script"
+      />
+    </>
   )
 }
