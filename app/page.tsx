@@ -110,6 +110,24 @@ const experiences = [
   }
 ]
 
+const liveProjects = [
+  {
+    title: "Techise Mobile Repair",
+    description: "A professional mobile repair service website with appointment booking and service tracking.",
+    link: "https://techise.ca"
+  },
+  {
+    title: "Booze on Wheels",
+    description: "An e-commerce platform for alcohol delivery with real-time inventory and secure payment processing.",
+    link: "https://boozeonwheels.ca"
+  },
+  {
+    title: "Neximm Visa",
+    description: "An immigration consulting website with visa application tracking and document management.",
+    link: "https://neximmvisa.com"
+  }
+]
+
 export default function Portfolio() {
   const { theme, toggleTheme } = useTheme()
   const isDark = theme === 'dark'
@@ -443,6 +461,54 @@ export default function Portfolio() {
           </div>
         </section>
 
+        {/* Live Projects Section */}
+        <section
+          id="live-projects"
+          className="py-8 pt-16 bg-transparent"
+        >
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
+              Live Projects
+              <div className="w-24 h-1 bg-blue-500 mx-auto mt-4"></div>
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+              {liveProjects.map((project, index) => (
+                <div key={index} className="bg-white/80 dark:bg-gray-900/50 backdrop-blur-sm p-6 rounded-lg shadow-xl hover:bg-white/90 dark:hover:bg-gray-900/60 transition-colors group">
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-gray-700 dark:text-gray-300 mb-4">{project.description}</p>
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                    >
+                      Visit Project
+                      <svg
+                        className="w-4 h-4 ml-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Education Section */}
         <section ref={educationRef} id="education" className="py-8 pt-16 bg-transparent">
           <div className="container mx-auto px-4">
@@ -489,18 +555,6 @@ export default function Portfolio() {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">X (Twitter)</h3>
                     <a href="https://x.com/vnpatel99" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">@vnpatel99</a>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">LinkedIn</h3>
-                    <a href="https://www.linkedin.com/in/vraj-patel-5877442a3/" target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Vraj Patel</a>
                   </div>
                 </div>
               </div>
