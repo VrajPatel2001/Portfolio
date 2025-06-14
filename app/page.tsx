@@ -83,30 +83,6 @@ const experiences = [
       "Secured RESTful APIs with Spring Security, OAuth 2.0, and JWT.",
       "Automated CI/CD pipelines using Jenkins, Docker, and Kubernetes."
     ]
-  },
-  {
-    role: "Software Developer",
-    company: "Loblaw Companies Limited",
-    period: "October 2020 – February 2024",
-    achievements: [
-      "Built and maintained pharmacy software systems using Java, Spring Boot, and React.js.",
-      "Strengthened application security with OAuth 2.0, JWT, and Spring Security.",
-      "Optimized microservices architecture with Spring Cloud and Kubernetes.",
-      "Developed reusable React.js components, increasing development efficiency by 25%.",
-      "Led troubleshooting efforts that reduced app crashes by 95%."
-    ]
-  },
-  {
-    role: "Java Developer",
-    company: "Otsuka Pharmaceutical India Pvt. Ltd.",
-    period: "July 2018 – September 2020",
-    achievements: [
-      "Enhanced application performance using Spring Boot, resulting in a 25% increase in user satisfaction.",
-      "Designed JPA entities and optimized data access with Hibernate, doubling database performance.",
-      "Wrote SQL procedures and complex queries, improving database efficiency by 30%.",
-      "Automated build processes with Maven and Jenkins, cutting manual effort by 15%.",
-      "Conducted code reviews, reducing bugs by 20% and accelerating release cycles."
-    ]
   }
 ]
 
